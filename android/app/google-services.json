@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1099060023076",
+    "project_id": "thunter-4ba22",
+    "storage_bucket": "thunter-4ba22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1099060023076:android:f5d2ba9330daff7cac6db1",
+        "android_client_info": {
+          "package_name": "com.example.initiator2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-f8U182NCss7IPvAA0TDAeSrMZ3mVabg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
