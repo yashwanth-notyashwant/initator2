@@ -15,7 +15,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1000),
       vsync: this,
     );
     _animation =
@@ -25,7 +25,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   }
 
   _navigateToHome() async {
-    await Future.delayed(Duration(milliseconds: 3000), (() {}));
+    await Future.delayed(Duration(milliseconds: 2000), (() {}));
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -46,7 +46,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
       opacity: _animation,
       child: MaterialApp(
         home: Scaffold(
-          backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+          backgroundColor: Color.fromARGB(255, 20, 20, 20),
           body: Center(
             child: Container(
               height: MediaQuery.of(context).size.width,

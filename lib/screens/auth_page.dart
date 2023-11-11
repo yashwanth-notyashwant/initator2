@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:initator/screens/add_user_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -11,7 +12,8 @@ class AuthPage extends StatefulWidget {
   AuthPage({
     Key? key,
     this.primaryColor = const Color.fromARGB(255, 37, 237, 237),
-    this.backgroundColor = const Color.fromARGB(255, 0, 0, 0),
+    // this.backgroundColor = const Color.fromARGB(255, 0, 0, 0),
+    this.backgroundColor = const Color.fromARGB(255, 18, 18, 18),
   });
 
   @override
@@ -65,7 +67,7 @@ class _AuthPageState extends State<AuthPage> {
                                   color: this.widget.primaryColor),
                             ),
                             Text(
-                              "Brough you by DEVOPS ",
+                              "By DEVOPS ",
                               style: TextStyle(
                                   fontSize: 20.0,
                                   fontWeight: FontWeight.bold,
@@ -227,12 +229,13 @@ class _AuthPageState extends State<AuthPage> {
 
                               if (myController2.text.toString().trim() ==
                                   user?.password.toString()) {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (context) => Instructions Page(),
-                                //   ),
-                                // );
+                                // ignore: use_build_context_synchronously
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AddNewUser(),
+                                  ),
+                                );
 
                                 print('valid user');
                                 print(user?.id.toString());
