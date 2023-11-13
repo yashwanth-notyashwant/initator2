@@ -46,7 +46,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
       opacity: _animation,
       child: MaterialApp(
         home: Scaffold(
-          backgroundColor: Color.fromARGB(255, 20, 20, 20),
+          backgroundColor: Color.fromARGB(255, 0, 0, 0),
           body: Center(
             child: Container(
               height: MediaQuery.of(context).size.width,

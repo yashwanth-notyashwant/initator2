@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:http/http.dart' as http;
 
 class User {
@@ -18,7 +19,7 @@ class User {
 }
 
 class Users with ChangeNotifier {
-  Future<void> addUserToFirestore(User newUser) async {
+  Future<bool> addUserToFirestore(User newUser) async {
     try {
       await FirebaseFirestore.instance.collection('users').doc(newUser.id).set({
         'id': newUser.id,
@@ -28,9 +29,19 @@ class Users with ChangeNotifier {
       });
 
       notifyListeners();
+      return true;
     } catch (error) {
       print(error);
-      rethrow;
+      Fluttertoast.showToast(
+          msg: "${error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          textColor: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 16.0);
+      return false;
+      // rethrow;
     }
   }
 
@@ -41,7 +52,7 @@ class Users with ChangeNotifier {
           .doc(userId)
           .get();
       print('hello ');
-      print(snapshot);
+      // print(snapshot);
 
       if (snapshot.exists) {
         final userData = snapshot.data() as Map<String, dynamic>;
@@ -54,9 +65,25 @@ class Users with ChangeNotifier {
 
         return user;
       } else {
+        Fluttertoast.showToast(
+            msg: "NOT FOUND",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            textColor: Color.fromARGB(255, 0, 0, 0),
+            fontSize: 16.0);
         return null;
       }
     } catch (error) {
+      Fluttertoast.showToast(
+          msg: "${error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          textColor: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 16.0);
       print(error);
       return null;
     }

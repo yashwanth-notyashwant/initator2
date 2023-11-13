@@ -1,6 +1,9 @@
 import 'package:flutter/services.dart';
 // import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:initator/models/user.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 // import '../models/User.dart';
 
@@ -292,21 +295,36 @@ class _AddNewUserState extends State<AddNewUser> {
                         return;
                       }
 
-                      // var a = await Provider.of<Events>(
-                      //   context,
-                      //   listen: false,
-                      // ).addMethodForUser(
-                      //   Event(
-                      //     creatorName: myController1.text,
-                      //     creatorDesignation: myController2.text,
-                      //     placeName: myController3.text,
-                      //     piclink: myController4.text,
-                      //     description: myController5.text,
-                      //     cord1: myController6.text,
-                      //     id: myController1.text,
-                      //     date: myController7.text.toString().trim(),
-                      //   ),
-                      // );
+                      var isUserAdded = await Provider.of<Users>(
+                        context,
+                        listen: false,
+                      ).addUserToFirestore(
+                        User(
+                            id: myController2.text.toString().trim(),
+                            password: myController3.text.toString().trim(),
+                            name: myController1.text.toString().trim(),
+                            milestone: 0),
+                      );
+
+                      if (isUserAdded == true) {
+                        // show a toast
+                        Fluttertoast.showToast(
+                            msg: " User added sucessfully ",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                            textColor: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 16.0);
+                        return;
+                      }
+                      if (isUserAdded == false) {
+                        // show a toast
+                        Navigator.pop(context);
+                        return;
+                      }
+
+                      //  show
                       // Navigator.pushReplacement(
                       //   context,
                       //   MaterialPageRoute(
@@ -330,4 +348,4 @@ class _AddNewUserState extends State<AddNewUser> {
   }
 }
 
-//just testing out 
+//just testing out

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:initator/screens/add_user_screen.dart';
+import 'package:initator/screens/instructions_page.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -221,14 +222,15 @@ class _AuthPageState extends State<AuthPage> {
                               ),
                             ),
                             onPressed: () async {
-                              print(myController1.text.toString());
                               var user = await Provider.of<Users>(context,
                                       listen: false)
                                   .fetchUserFromFirestore(
                                       myController1.text.toString());
 
                               if (myController2.text.toString().trim() ==
-                                  user?.password.toString()) {
+                                      'pass' &&
+                                  myController1.text.toString().trim() ==
+                                      '6363') {
                                 // ignore: use_build_context_synchronously
                                 Navigator.push(
                                   context,
@@ -237,10 +239,26 @@ class _AuthPageState extends State<AuthPage> {
                                   ),
                                 );
 
-                                print('valid user');
+                                // if (myController2.text.toString().trim() ==
+                                //     user?.password.toString()) {
+                                //   // ignore: use_build_context_synchronously
+                                //   Navigator.push(
+                                //     context,
+                                //     MaterialPageRoute(
+                                //       builder: (context) => AddNewUser(),
+                                //     ),
+                                //   );
+
                                 print(user?.id.toString());
                                 print(user?.milestone.toString());
                                 print(user?.name.toString());
+                              } else if (user != null) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => InstructionsScreen(),
+                                  ),
+                                );
                               } else {
                                 return;
                               }
