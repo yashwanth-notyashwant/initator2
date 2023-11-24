@@ -253,7 +253,7 @@ class _AuthPageState extends State<AuthPage> {
                                 print(user?.milestone.toString());
                                 print(user?.name.toString());
                               } else if (user != null) {
-                                Navigator.push(
+                                Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => InstructionsScreen(),

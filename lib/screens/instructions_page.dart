@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:initator/screens/qr_scanning_round.dart';
+import 'package:initator/screens/round1_screen.dart';
 
 // ignore: must_be_immutable
 class InstructionsScreen extends StatefulWidget {
@@ -55,12 +57,12 @@ print(_geeks, geeks_, _GEEKS_)
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          leading: BackButton(
-            color: Colors.black,
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
+          // leading: BackButton(
+          //   color: Colors.black,
+          //   onPressed: () {
+          //     Navigator.of(context).pop();
+          //   },
+          // ),
           actions: [
             Container(
               decoration: BoxDecoration(
@@ -70,15 +72,17 @@ print(_geeks, geeks_, _GEEKS_)
               margin: EdgeInsets.only(right: 20, top: 10),
               child: TextButton(
                 onPressed: () {
-                  // Navigator.of(context).push(
+                  // Navigator.of(context).pushReplacement(
                   //   MaterialPageRoute(
-                  //       builder: (context) =>
-                  //           classNames[widget.indexOfChapters]),
+                  //       builder: (context) => QuizPageConditionals()),
                   // );
-                  // push to quiz page
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => QrScanRound()),
+                  );
+                  // push to quiz page round N
                 },
                 child: Text(
-                  " Skip >>",
+                  " Start >>",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
