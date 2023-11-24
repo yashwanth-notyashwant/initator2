@@ -1,20 +1,24 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 
 class CountdownTimer extends StatefulWidget {
+  late int seconds;
+
+  CountdownTimer(this.seconds);
+
   @override
   _CountdownTimerState createState() => _CountdownTimerState();
 }
 
 class _CountdownTimerState extends State<CountdownTimer> {
   late Timer _timer;
-  // int _secondsRemaining = 5 * 60; // 5 minutes
-  int _secondsRemaining = 100; // 5 minutes
+  late int _secondsRemaining;
 
   @override
   void initState() {
     super.initState();
+    _secondsRemaining =
+        100 - widget.seconds; // Initialize the class-level variable
     startTimer();
   }
 

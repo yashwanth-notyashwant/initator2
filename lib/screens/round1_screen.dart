@@ -87,7 +87,7 @@ class _QuizPageConditionalsState extends State<QuizPageConditionals> {
             //     textAlign: TextAlign.start,
             //   ),
             // ),
-            CountdownTimer(),
+            // CountdownTimer(),
             Container(
               margin: EdgeInsets.only(left: 20, top: 50),
               // color: const Color.fromARGB(255, 255, 247, 247),

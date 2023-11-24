@@ -13,17 +13,25 @@ class QrScanRound extends StatefulWidget {
 
 class _QrScanRoundState extends State<QrScanRound> {
   Random random = Random();
-  late int currenRandomQuestionIndex; // Declare as late variable
+  late int currenRandomQuestionIndex;
+
+  late DateTime startTime;
 
   @override
   void initState() {
     super.initState();
     currenRandomQuestionIndex =
         random.nextInt(5); // Initialize inside initState
+    startTime = DateTime.now();
+  }
+
+  int calculateElapsedTime() {
+    Duration elapsed = DateTime.now().difference(startTime);
+    return elapsed.inSeconds;
   }
 
   List<String> questions = [
-    ' What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 1 ',
+    ' What is a conditional ditional statement in Python is used to make nal ditional statement in Python is used to make decisionsnal ditional statement in Pythonnal ditional statement in P isnal ditional statement in P usednal ditional statement in P tonal ditional statement in P makenal ditional statement in P  innalnal ditional statement in P ditionalnal ditional statement in P statementnal ditional statement in P innal ditional statement in P Pythonnal ditional statement in P isnal ditional statement in P used to make  your conditional statement in Python? ans 1 ',
     'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 2 ',
     'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 3 ',
     'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 4 ',
@@ -38,7 +46,7 @@ class _QrScanRoundState extends State<QrScanRound> {
     'five',
   ];
 
-  void _openBottomSheet(BuildContext context, int index) {
+  void _openBottomSheet(BuildContext context, int index, int seconds) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -57,7 +65,7 @@ class _QrScanRoundState extends State<QrScanRound> {
             // ),
             Container(
               width: MediaQuery.of(context).size.width,
-              child: CountdownTimer(),
+              child: CountdownTimer(seconds),
             ),
             // if timer ends then show the timer but for now show the timer
 
@@ -101,7 +109,7 @@ class _QrScanRoundState extends State<QrScanRound> {
       } else {
         // Handle wrong answer
         print('Wrong answer!');
-        _openBottomSheet(context, currenRandomQuestionIndex);
+        // _openBottomSheet(context, currenRandomQuestionIndex);
         //open the scaffold bottom sheet
       }
       // Move to the next question
@@ -126,7 +134,9 @@ class _QrScanRoundState extends State<QrScanRound> {
             margin: EdgeInsets.only(right: 20, top: 10),
             child: TextButton(
               onPressed: () {
-                _openBottomSheet(context, currenRandomQuestionIndex);
+                int elapsedTime = calculateElapsedTime();
+                _openBottomSheet(
+                    context, currenRandomQuestionIndex, elapsedTime);
               },
               child: const Row(
                 mainAxisSize: MainAxisSize.min, // Align items in a row
