@@ -19,7 +19,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   void initState() {
     super.initState();
 
-    _secondsRemaining = 90 - widget.seconds;
+    _secondsRemaining = 200 - widget.seconds;
 
     if (_secondsRemaining <= 0) {
       _secondsRemaining = 0;
@@ -56,7 +56,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
         Container(
           margin: EdgeInsets.only(left: 5, right: 5, top: 25),
           child: Text(
-            'Next hint in :$minutes: ${seconds.toString().padLeft(2, '0')}',
+            'Next hint in : $minutes: ${seconds.toString().padLeft(2, '0')}',
 
             // questions[currenRandomQuestionIndex],
             style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
