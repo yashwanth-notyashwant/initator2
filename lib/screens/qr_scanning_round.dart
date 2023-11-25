@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/screens/qr_scanner_screen.dart';
 import 'package:initator/widgets/timer_widget.dart';
-import 'dart:math';
+
 import 'package:flutter/services.dart';
 
+// ignore: must_be_immutable
 class QrScanRound extends StatefulWidget {
+  late String id;
+  QrScanRound(this.id);
   @override
   _QrScanRoundState createState() => _QrScanRoundState();
 }
 
 class _QrScanRoundState extends State<QrScanRound> {
-  Random random = Random();
+  late String id;
+  late int reqNum;
   late int currenRandomQuestionIndex;
 
   late DateTime startTime;
@@ -22,12 +26,14 @@ class _QrScanRoundState extends State<QrScanRound> {
   void initState() {
     fToast = FToast();
     fToast.init(context);
-
+    id = widget.id;
+    reqNum = int.parse(id);
+    reqNum = reqNum % 10;
+    reqNum = reqNum - 5;
+    currenRandomQuestionIndex = reqNum;
+    startTime = DateTime.now();
     super.initState();
-    currenRandomQuestionIndex =
-        random.nextInt(5); // Initialize inside initState
-    startTime = DateTime
-        .now(); // here set the time of the start time of the round for this question
+    // here set the time of the start time of the round for this question
   }
 
   Widget toast(bool val) {
@@ -65,11 +71,11 @@ class _QrScanRoundState extends State<QrScanRound> {
   ];
 
   List<String> answers = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
+    'OnE',
+    'TwO',
+    'ThRee',
+    'Four',
+    'Five',
   ];
 
   void _openBottomSheet(BuildContext context, int index, int seconds) {
@@ -103,7 +109,10 @@ class _QrScanRoundState extends State<QrScanRound> {
     //
     void checkAnswer(String ansByUser, int currenRandomQuestionIndex,
         BuildContext context) async {
-      if (ansByUser == answers[currenRandomQuestionIndex]) {
+      if (ansByUser.toLowerCase().replaceAll(' ', '') ==
+          answers[currenRandomQuestionIndex]
+              .toLowerCase()
+              .replaceAll(' ', '')) {
         print(ansByUser);
         print(currenRandomQuestionIndex);
         print('Correct answer ');
@@ -217,6 +226,7 @@ class _QrScanRoundState extends State<QrScanRound> {
                 padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
                 child: TextButton(
                   onPressed: () async {
+                    FocusScope.of(context).unfocus();
                     checkAnswer(_textController.text, currenRandomQuestionIndex,
                         context);
 

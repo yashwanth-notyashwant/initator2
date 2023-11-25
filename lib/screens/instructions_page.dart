@@ -4,6 +4,8 @@ import 'package:initator/screens/round1_screen.dart';
 
 // ignore: must_be_immutable
 class InstructionsScreen extends StatefulWidget {
+  late String id;
+  InstructionsScreen(this.id);
   @override
   State<InstructionsScreen> createState() => _InstructionsScreenState();
 }
@@ -77,8 +79,10 @@ print(_geeks, geeks_, _GEEKS_)
                   //       builder: (context) => QuizPageConditionals()),
                   // );
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => QrScanRound()),
+                    MaterialPageRoute(
+                        builder: (context) => QrScanRound(widget.id)),
                   );
+                  // here pass the user id to change the random fasion
                   // push to quiz page round N
                 },
                 child: Text(

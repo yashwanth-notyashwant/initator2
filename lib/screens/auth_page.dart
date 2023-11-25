@@ -256,7 +256,8 @@ class _AuthPageState extends State<AuthPage> {
                                 Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => InstructionsScreen(),
+                                    builder: (context) =>
+                                        InstructionsScreen(user.id.toString()),
                                   ),
                                 );
                               } else {
