@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:initator/screens/qr_scanner_screen.dart';
 import 'package:initator/widgets/timer_widget.dart';
 import 'dart:math';
-import 'dart:async';
+import 'package:flutter/services.dart';
 
 class QrScanRound extends StatefulWidget {
-  // int score;
-  // String id;
-  // QuizPageConditionals(this.score, this.id);
   @override
   _QrScanRoundState createState() => _QrScanRoundState();
 }
@@ -17,12 +16,39 @@ class _QrScanRoundState extends State<QrScanRound> {
 
   late DateTime startTime;
 
+  late FToast fToast;
+
   @override
   void initState() {
+    fToast = FToast();
+    fToast.init(context);
+
     super.initState();
     currenRandomQuestionIndex =
         random.nextInt(5); // Initialize inside initState
-    startTime = DateTime.now();
+    startTime = DateTime
+        .now(); // here set the time of the start time of the round for this question
+  }
+
+  Widget toast(bool val) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(25.0),
+        color: const Color.fromARGB(255, 182, 222, 255),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          val == false ? Icon(Icons.warning) : Icon(Icons.fireplace),
+          SizedBox(
+            width: 12.0,
+          ),
+          Text(
+              val == false ? "  Wrong Answer !    " : "  Correct Answer !    "),
+        ],
+      ),
+    );
   }
 
   int calculateElapsedTime() {
@@ -39,7 +65,7 @@ class _QrScanRoundState extends State<QrScanRound> {
   ];
 
   List<String> answers = [
-    'one ',
+    'one',
     'two',
     'three',
     'four',
@@ -54,29 +80,9 @@ class _QrScanRoundState extends State<QrScanRound> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Container(
-            //   margin: EdgeInsets.only(left: 20, top: 30),
-            //   // color: const Color.fromARGB(255, 255, 247, 247),
-            //   child: Text(
-            //     'Hint : ',
-            //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.w400),
-            //     textAlign: TextAlign.start,
-            //   ),
-            // ),
             Container(
               width: MediaQuery.of(context).size.width,
-              child: CountdownTimer(seconds),
-            ),
-            // if timer ends then show the timer but for now show the timer
-
-            Container(
-              margin: EdgeInsets.only(left: 20, top: 50),
-              // color: const Color.fromARGB(255, 255, 247, 247),
-              child: Text(
-                '${answers[index]}',
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
-                textAlign: TextAlign.start,
-              ),
+              child: CountdownTimer(seconds, answers[index]),
             ),
           ],
         );
@@ -94,6 +100,7 @@ class _QrScanRoundState extends State<QrScanRound> {
 
   @override
   Widget build(BuildContext context) {
+    //
     void checkAnswer(String ansByUser, int currenRandomQuestionIndex,
         BuildContext context) async {
       if (ansByUser == answers[currenRandomQuestionIndex]) {
@@ -101,30 +108,40 @@ class _QrScanRoundState extends State<QrScanRound> {
         print(currenRandomQuestionIndex);
         print('Correct answer ');
 
+        var toastWidget = toast(true);
+        fToast.showToast(
+          child: toastWidget,
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: Duration(seconds: 1),
+        );
+
+        Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) =>
+                  QrScannerPage(answers[currenRandomQuestionIndex])),
+        );
+
         // Handle correct answer
         // final isdone =
         //     await Provider.of<Users>(context, listen: false).incrementUserScore(
         //   widget.id,
         // );
       } else {
-        // Handle wrong answer
+        var toastWidget = toast(false);
+        fToast.showToast(
+          child: toastWidget,
+          gravity: ToastGravity.BOTTOM,
+          toastDuration: Duration(seconds: 1),
+        );
+
         print('Wrong answer!');
-        // _openBottomSheet(context, currenRandomQuestionIndex);
-        //open the scaffold bottom sheet
       }
-      // Move to the next question
     }
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        // leading: BackButton(
-        //   color: Colors.black,
-        //   onPressed: () {
-        //     Navigator.of(context).pop();
-        //   },
-        // ),
         actions: [
           Container(
             decoration: BoxDecoration(
@@ -199,10 +216,14 @@ class _QrScanRoundState extends State<QrScanRound> {
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
                 child: TextButton(
-                  onPressed: () => checkAnswer(
-                      _textController.text, currenRandomQuestionIndex, context),
+                  onPressed: () async {
+                    checkAnswer(_textController.text, currenRandomQuestionIndex,
+                        context);
+
+                    // go to the qr code scanning page
+                  },
                   child: const Text(
-                    'Submit',
+                    'Next',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 20,
@@ -211,6 +232,11 @@ class _QrScanRoundState extends State<QrScanRound> {
                   ), //add some styles
                 ),
               ),
+              // QrImageView(
+              //   data: '1234567890',
+              //   version: QrVersions.auto,
+              //   size: 200.0,
+              // ),
             ],
           ),
         ),
