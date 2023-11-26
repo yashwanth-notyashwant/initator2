@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:initator/screens/apti_type_round1_screen.dart';
 import 'package:initator/screens/qr_scanning_round.dart';
 import 'package:initator/screens/round1_screen.dart';
 
@@ -80,7 +81,8 @@ print(_geeks, geeks_, _GEEKS_)
                   // );
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                        builder: (context) => QrScanRound(widget.id)),
+                        builder: (context) => Round1Apti15m(widget.id)),
+                    // builder: (context) => QrScanRound(widget.id)),
                   );
                   // here pass the user id to change the random fasion
                   // push to quiz page round N

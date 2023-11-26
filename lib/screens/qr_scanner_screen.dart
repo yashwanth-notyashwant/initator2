@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
-// void main() => runApp(MyApp());
-
 class QrScannerPage extends StatefulWidget {
   late String answerForQr;
 
