@@ -129,12 +129,6 @@ class _QrScanRoundState extends State<QrScanRound> {
               builder: (context) =>
                   QrScannerPage(answers[currenRandomQuestionIndex])),
         );
-
-        // Handle correct answer
-        // final isdone =
-        //     await Provider.of<Users>(context, listen: false).incrementUserScore(
-        //   widget.id,
-        // );
       } else {
         var toastWidget = toast(false);
         fToast.showToast(
