@@ -8,7 +8,7 @@ class User {
 
   String password;
   String name;
-  int milestone;
+  double milestone;
 
   User({
     required this.id,
@@ -19,6 +19,23 @@ class User {
 }
 
 class Users with ChangeNotifier {
+  Future<bool> pointAdder(String id, double points) async {
+    try {
+      // Get a reference to the user's document in Firestore
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(id);
+
+      // Update the milestone field by incrementing the provided points
+      await userRef.update({'milestone': FieldValue.increment(points)});
+
+      print('Milestone updated successfully.');
+      return true;
+    } catch (error) {
+      print('Error updating milestone: $error');
+      return false;
+    }
+  }
+
   Future<bool> addUserToFirestore(User newUser) async {
     try {
       await FirebaseFirestore.instance.collection('users').doc(newUser.id).set({
@@ -76,6 +93,7 @@ class Users with ChangeNotifier {
         return null;
       }
     } catch (error) {
+      print('hereherehehrehrherhehr');
       Fluttertoast.showToast(
           msg: "${error}",
           toastLength: Toast.LENGTH_SHORT,

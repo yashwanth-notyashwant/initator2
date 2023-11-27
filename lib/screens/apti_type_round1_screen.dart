@@ -1,6 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:initator/screens/qr_scanning_round.dart';
+import 'package:initator/models/user.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class Round1Apti15m extends StatefulWidget {
@@ -11,6 +14,7 @@ class Round1Apti15m extends StatefulWidget {
 }
 
 class _Round1Apti15mState extends State<Round1Apti15m> {
+  late DateTime startTime;
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
   final TextEditingController _textController3 = TextEditingController();
@@ -22,6 +26,7 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
   final TextEditingController _textController9 = TextEditingController();
   final TextEditingController _textController10 = TextEditingController();
   int _currentIndex = 0;
+  bool isSubmitted = false;
 
   final List<Map<String, String>> _questions = [
     {
@@ -76,17 +81,6 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
     },
   ];
 
-  final List<String> chapters = [
-    "Question no:1",
-  ];
-
-  final List<String> texts = [
-    """Example of Variable in Python
-
-dummy data 
-An Example of a Variable in Python is a representational name that serves as a pointer to an object. Once an object is assigned to a variable, it can be referred to by that name. In layman’s terms, we can say that Variable in Python is containers that store values.""",
-  ];
-
   Widget toast(bool val) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
@@ -127,234 +121,16 @@ An Example of a Variable in Python is a representational name that serves as a p
 
   @override
   void initState() {
+    startTime = DateTime.now();
     super.initState();
     fToast = FToast();
     fToast.init(context);
     _questions.shuffle(); // Shuffle the list of questions at the beginning
   }
 
-  @override
-  Widget build(BuildContext context) {
-    List CpntrollerList = [
-      _textController1,
-      _textController2,
-      _textController3,
-      _textController4,
-      _textController5,
-      _textController6,
-      _textController7,
-      _textController8,
-      _textController9,
-      _textController10,
-    ];
-    // var hi = MediaQuery.of(context).size.height;
-    var wi = MediaQuery.of(context).size.width;
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          // leading: BackButton(
-          //   color: Colors.black,
-          //   onPressed: () {
-          //     Navigator.of(context).pop();
-          //   },
-          // ),
-          actions: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: 60,
-                  width: MediaQuery.of(context).size.width * 0.5 - 10,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 182, 222, 255),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                    ),
-                  ),
-                  margin: EdgeInsets.only(top: 10),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20),
-                        ), // Set the border radius here
-                      ),
-                    ),
-                    onPressed: () {
-                      _showPreviousQuestion();
-                    },
-                    child: const Text(
-                      "<< Previous ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Container(
-                  height: 60,
-                  width: MediaQuery.of(context).size.width * 0.5 - 10,
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 182, 222, 255),
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                  ),
-                  margin: EdgeInsets.only(top: 10, right: 5),
-                  child: TextButton(
-                    style: TextButton.styleFrom(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ), // Set the border radius here
-                      ),
-                    ),
-                    onPressed: () {
-                      _showNextQuestion();
-                    },
-                    child: const Text(
-                      " Next >>",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            width: wi,
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 20, top: 30),
-                  child: Text(
-                    'Question no:${_currentIndex + 1}',
-                    style: TextStyle(
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                _questions[_currentIndex]['stat'] == 'T'
-                    ? Container(
-                        // height: 60,
-                        margin: EdgeInsets.only(top: 30),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 182, 222, 255),
-                          // borderRadius: BorderRadius.circular(20),
-                        ),
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.only(left: 10, right: 10),
-
-                        child: const Text(
-                          'Answer Correct Please go to 10th question to Submit all',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.black),
-                        ), //add some styles
-                      )
-                    : Container(
-                        margin:
-                            EdgeInsets.only(left: 20, right: 20, bottom: 10),
-                        child: Text(
-                          _questions[_currentIndex]['question'] ?? '',
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.w300),
-                        ),
-                      ),
-
-                SizedBox(height: 10),
-                if (_questions[_currentIndex]['stat'] == 'F')
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: TextField(
-                        controller: CpntrollerList[_currentIndex],
-                        decoration: InputDecoration(
-                          labelText: 'Enter your answer',
-                        ),
-                      ),
-                    ),
-                  ),
-                if (_questions[_currentIndex]['stat'] == 'F')
-                  Container(
-                    height: 60,
-                    margin: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 182, 222, 255),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: TextButton(
-                      onPressed: () {
-                        FocusScope.of(context).unfocus();
-                        checkAnswer(CpntrollerList[_currentIndex].text,
-                            _currentIndex, context);
-                      },
-                      child: const Text(
-                        'Check',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black),
-                      ), //add some styles
-                    ),
-                  ),
-
-                // button only if reached the end
-                if (_currentIndex == _questions.length - 1)
-                  Container(
-                    height: 60,
-                    margin: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 182, 222, 255),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    width: MediaQuery.of(context).size.width,
-                    padding: EdgeInsets.only(left: 10, right: 10),
-                    child: TextButton(
-                      onPressed: () async {
-                        FocusScope.of(context).unfocus();
-                        _submitQuiz();
-                      },
-                      child: const Text(
-                        'Submit All',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            color: Colors.black),
-                      ), //add some styles
-                    ),
-                  ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
+  int calculateElapsedTime() {
+    Duration elapsed = DateTime.now().difference(startTime);
+    return elapsed.inSeconds;
   }
 
   void checkAnswer(
@@ -403,9 +179,262 @@ An Example of a Variable in Python is a representational name that serves as a p
     });
   }
 
-  void _submitQuiz() {
-    // Add logic to handle quiz submission
-    // You can navigate to a new screen or show the results
-    print('Quiz submitted');
+  int countItemsWithTStat(List<Map<String, String>> list) {
+    int count = 0;
+
+    for (var item in list) {
+      if (item["stat"] == "T") {
+        count++;
+      }
+    }
+
+    return count;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List CpntrollerList = [
+      _textController1,
+      _textController2,
+      _textController3,
+      _textController4,
+      _textController5,
+      _textController6,
+      _textController7,
+      _textController8,
+      _textController9,
+      _textController10,
+    ];
+    // var hi = MediaQuery.of(context).size.height;
+    var wi = MediaQuery.of(context).size.width;
+    return MaterialApp(
+      home: Scaffold(
+        appBar: isSubmitted
+            ? AppBar(
+                backgroundColor: Colors.white,
+                elevation: 0,
+                actions: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width * 0.5 - 10,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 182, 222, 255),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20),
+                          ),
+                        ),
+                        margin: EdgeInsets.only(top: 10),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                bottomLeft: Radius.circular(20),
+                              ), // Set the border radius here
+                            ),
+                          ),
+                          onPressed: () {
+                            _showPreviousQuestion();
+                          },
+                          child: const Text(
+                            "<< Previous ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        height: 60,
+                        width: MediaQuery.of(context).size.width * 0.5 - 10,
+                        decoration: const BoxDecoration(
+                          color: Color.fromARGB(255, 182, 222, 255),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                        ),
+                        margin: EdgeInsets.only(top: 10, right: 5),
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                topRight: Radius.circular(20),
+                                bottomRight: Radius.circular(20),
+                              ), // Set the border radius here
+                            ),
+                          ),
+                          onPressed: () {
+                            _showNextQuestion();
+                          },
+                          child: const Text(
+                            " Next >>",
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+            : AppBar(
+                title: Text('Submitteed Already '),
+              ),
+        body: isSubmitted
+            ? SingleChildScrollView(
+                child: Container(
+                  width: wi,
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 20, top: 30),
+                        child: Text(
+                          'Question no:${_currentIndex + 1}',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                      _questions[_currentIndex]['stat'] == 'T'
+                          ? Container(
+                              // height: 60,
+                              margin: EdgeInsets.only(top: 30),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 182, 222, 255),
+                                // borderRadius: BorderRadius.circular(20),
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(left: 10, right: 10),
+
+                              child: const Text(
+                                'Answer Correct Please go to 10th question to Submit all',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ), //add some styles
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 10),
+                              child: Text(
+                                _questions[_currentIndex]['question'] ?? '',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w300),
+                              ),
+                            ),
+
+                      SizedBox(height: 10),
+                      if (_questions[_currentIndex]['stat'] == 'F')
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: CpntrollerList[_currentIndex],
+                              decoration: InputDecoration(
+                                labelText: 'Enter your answer',
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (_questions[_currentIndex]['stat'] == 'F')
+                        Container(
+                          height: 60,
+                          margin: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: TextButton(
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              checkAnswer(CpntrollerList[_currentIndex].text,
+                                  _currentIndex, context);
+                            },
+                            child: const Text(
+                              'Check',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                            ), //add some styles
+                          ),
+                        ),
+
+                      // button only if reached the end
+                      if (_currentIndex == _questions.length - 1)
+                        Container(
+                          height: 60,
+                          margin: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: TextButton(
+                            onPressed: () async {
+                              int elapsedTime = calculateElapsedTime();
+                              FocusScope.of(context).unfocus();
+                              int countTStat = countItemsWithTStat(_questions);
+                              print(
+                                  "Number of items with 'stat' key set to 'T': $countTStat");
+                              print('Quiz submitted');
+                              print('time is ${elapsedTime}');
+                              double points = countTStat / 10;
+                              print('points is countTStat / 10  ${points}');
+                              double diffOf900andET = 900 - elapsedTime * 0.5;
+                              double tot = diffOf900andET * points;
+                              double roundedValue =
+                                  double.parse(tot.toStringAsFixed(2));
+                              print(
+                                  'Total Score tot = diffOf900andET * points is $roundedValue');
+                              var ifSubmitted = await Provider.of<Users>(
+                                context,
+                                listen: false,
+                              ).pointAdder(widget.id, roundedValue);
+
+                              if (ifSubmitted == true) {
+                                setState(() {
+                                  isSubmitted = true;
+                                });
+                              }
+                            },
+                            child: const Text(
+                              'Submit All',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                            ), //add some styles
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              )
+            : Text('Submitted already'),
+      ),
+    );
   }
 }
