@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 // import 'package:http/http.dart' as http;
 
@@ -19,8 +20,15 @@ class User {
 }
 
 class Users with ChangeNotifier {
-  Future<bool> pointAdder(String id, double points) async {
+  Future<bool> pointAdder(String id, double points, context) async {
     try {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          });
       // Get a reference to the user's document in Firestore
       DocumentReference userRef =
           FirebaseFirestore.instance.collection('users').doc(id);
@@ -29,9 +37,11 @@ class Users with ChangeNotifier {
       await userRef.update({'milestone': FieldValue.increment(points)});
 
       print('Milestone updated successfully.');
+      Navigator.of(context).pop();
       return true;
     } catch (error) {
       print('Error updating milestone: $error');
+      Navigator.of(context).pop();
       return false;
     }
   }

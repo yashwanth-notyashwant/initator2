@@ -1,9 +1,10 @@
-import 'dart:ffi';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:loading_btn/loading_btn.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: must_be_immutable
 class Round1Apti15m extends StatefulWidget {
@@ -205,11 +206,31 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
       _textController9,
       _textController10,
     ];
+
+    Future<bool> pointAdder(String id, double points) async {
+      try {
+        // Get a reference to the user's document in Firestore
+        DocumentReference userRef =
+            FirebaseFirestore.instance.collection('users').doc(id);
+
+        // Update the milestone field by incrementing the provided points
+        await userRef.update({'milestone': FieldValue.increment(points)});
+
+        print('Milestone updated successfully.');
+
+        return true;
+      } catch (error) {
+        print('Error updating milestone: $error');
+
+        return false;
+      }
+    }
+
     // var hi = MediaQuery.of(context).size.height;
     var wi = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
-        appBar: isSubmitted
+        appBar: !isSubmitted
             ? AppBar(
                 backgroundColor: Colors.white,
                 elevation: 0,
@@ -290,9 +311,9 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                 ],
               )
             : AppBar(
-                title: Text('Submitteed Already '),
+                title: Text(''),
               ),
-        body: isSubmitted
+        body: !isSubmitted
             ? SingleChildScrollView(
                 child: Container(
                   width: wi,
@@ -380,45 +401,45 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                           ),
                         ),
 
-                      // button only if reached the end
                       if (_currentIndex == _questions.length - 1)
-                        Container(
-                          height: 60,
-                          margin: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.04),
+                          child: LoadingBtn(
+                            height: 60,
+                            borderRadius: 20,
+                            animate: true,
                             color: const Color.fromARGB(255, 182, 222, 255),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: TextButton(
-                            onPressed: () async {
-                              int elapsedTime = calculateElapsedTime();
-                              FocusScope.of(context).unfocus();
-                              int countTStat = countItemsWithTStat(_questions);
-                              print(
-                                  "Number of items with 'stat' key set to 'T': $countTStat");
-                              print('Quiz submitted');
-                              print('time is ${elapsedTime}');
-                              double points = countTStat / 10;
-                              print('points is countTStat / 10  ${points}');
-                              double diffOf900andET = 900 - elapsedTime * 0.5;
-                              double tot = diffOf900andET * points;
-                              double roundedValue =
-                                  double.parse(tot.toStringAsFixed(2));
-                              print(
-                                  'Total Score tot = diffOf900andET * points is $roundedValue');
-                              var ifSubmitted = await Provider.of<Users>(
-                                context,
-                                listen: false,
-                              ).pointAdder(widget.id, roundedValue);
+                            width: MediaQuery.of(context).size.width * 0.92,
+                            loader: Container(
+                              padding: const EdgeInsets.all(10),
+                              width: 40,
+                              height: 40,
+                              child: const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            ),
+                            onTap:
+                                ((startLoading, stopLoading, btnState) async {
+                              if (btnState == ButtonState.idle) {
+                                startLoading();
+                                // call your network api
+                                var ifSubmitted =
+                                    await pointAdder(widget.id, 100);
 
-                              if (ifSubmitted == true) {
-                                setState(() {
-                                  isSubmitted = true;
-                                });
+                                if (ifSubmitted == true) {
+                                  setState(() {
+                                    isSubmitted = true;
+                                  });
+                                }
+                                if (isSubmitted == false) {
+                                  stopLoading();
+                                }
+
+                                stopLoading();
                               }
-                            },
+                            }),
                             child: const Text(
                               'Submit All',
                               textAlign: TextAlign.center,
@@ -429,11 +450,81 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                             ), //add some styles
                           ),
                         ),
+
+                      // button only if reached the end
+
+                      // Container(
+                      //   height: 60,
+                      //   margin: EdgeInsets.all(15),
+                      //   decoration: BoxDecoration(
+                      //     color: const Color.fromARGB(255, 182, 222, 255),
+                      //     borderRadius: BorderRadius.circular(20),
+                      //   ),
+                      //   width: MediaQuery.of(context).size.width,
+                      //   padding: EdgeInsets.only(left: 10, right: 10),
+
+                      //   child: TextButton(
+                      //     onPressed: () async {
+                      //       int elapsedTime = calculateElapsedTime();
+                      //       FocusScope.of(context).unfocus();
+                      //       int countTStat = countItemsWithTStat(_questions);
+                      //       print(
+                      //           "Number of items with 'stat' key set to 'T': $countTStat");
+                      //       print('Quiz submitted');
+                      //       print('time is ${elapsedTime}');
+                      //       double points = countTStat / 10;
+                      //       print('points is countTStat / 10  ${points}');
+                      //       double diffOf900andET = (900 - elapsedTime) * 0.5;
+                      //       double tot = diffOf900andET * points;
+                      //       double roundedValue =
+                      //           double.parse(tot.toStringAsFixed(2));
+                      //       print(
+                      //           'Total Score tot = diffOf900andET * points is $roundedValue');
+                      //       var ifSubmitted =
+                      //           await pointAdder(widget.id, roundedValue);
+
+                      //       if (ifSubmitted == true) {
+                      //         setState(() {
+                      //           isSubmitted = true;
+                      //         });
+                      //       }
+                      //     },
+                      //     child: const Text(
+                      //       'Submit All',
+                      //       textAlign: TextAlign.center,
+                      //       style: TextStyle(
+                      //           fontSize: 20,
+                      //           fontWeight: FontWeight.w300,
+                      //           color: Colors.black),
+                      //     ), //add some styles
+                      //   ), //heere
+                      // ),
                     ],
                   ),
                 ),
               )
-            : Text('Submitted already'),
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.width - 50,
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: Image.asset('lib/dev_assets/greenTickMark.png'),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 10, top: 30),
+                      child: const Text(
+                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically''',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
       ),
     );
   }
