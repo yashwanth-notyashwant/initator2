@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:initator/screens/apti_type_round1_screen.dart';
-import 'package:initator/screens/qr_scanning_round.dart';
 import 'package:initator/screens/round1_screen.dart';
+import 'package:initator/screens/qr_scanning_round.dart';
+import 'package:initator/screens/round2_screen.dart';
 
 // ignore: must_be_immutable
 class InstructionsScreen extends StatefulWidget {
@@ -80,8 +80,8 @@ print(_geeks, geeks_, _GEEKS_)
                   //       builder: (context) => QuizPageConditionals()),
                   // );
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                        builder: (context) => Round1Apti15m(widget.id)),
+                    MaterialPageRoute(builder: (context) => Round2(widget.id)),
+                    // builder: (context) => Round1Apti15m(widget.id)),
                     // builder: (context) => QrScanRound(widget.id)),
                   );
                   // here pass the user id to change the random fasion

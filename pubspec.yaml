@@ -72,6 +72,11 @@ flutter:
   assets:
     - lib/dev_assets/cicada_image.png
     - lib/dev_assets/greenTickMark.png
+    - lib/dev_assets/q1.png
+    - lib/dev_assets/q2.png
+    - lib/dev_assets/q3.png
+    - lib/dev_assets/q4.png
+    - lib/dev_assets/q5.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

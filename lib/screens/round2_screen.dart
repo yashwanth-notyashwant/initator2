@@ -2,82 +2,55 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
+import 'package:initator/widgets/timer_for_round1type.dart';
+import 'package:initator/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:loading_btn/loading_btn.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: must_be_immutable
-class Round1Apti15m extends StatefulWidget {
+class Round2 extends StatefulWidget {
   late String id;
-  Round1Apti15m(this.id);
+  Round2(this.id);
   @override
-  State<Round1Apti15m> createState() => _Round1Apti15mState();
+  State<Round2> createState() => _Round2State();
 }
 
-class _Round1Apti15mState extends State<Round1Apti15m> {
+class _Round2State extends State<Round2> {
   late DateTime startTime;
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
   final TextEditingController _textController3 = TextEditingController();
   final TextEditingController _textController4 = TextEditingController();
   final TextEditingController _textController5 = TextEditingController();
-  final TextEditingController _textController6 = TextEditingController();
-  final TextEditingController _textController7 = TextEditingController();
-  final TextEditingController _textController8 = TextEditingController();
-  final TextEditingController _textController9 = TextEditingController();
-  final TextEditingController _textController10 = TextEditingController();
+
   int _currentIndex = 0;
   bool isSubmitted = false;
 
   final List<Map<String, String>> _questions = [
     {
-      "question": "How many planets are in our solar system? Ans8",
-      "answer": "Eight",
+      "question": "lib/dev_assets/q1.png",
+      "answer": "one",
       "stat": "F",
     },
     {
-      "question": "How many elements are there in the periodic table? Ans1",
-      "answer": "One",
+      "question": "lib/dev_assets/q2.png",
+      "answer": "two",
       "stat": "F",
     },
     {
-      "question": "How many years did the Hundred Years' War last? Ans15",
-      "answer": "fifteen",
+      "question": "lib/dev_assets/q3.png",
+      "answer": "three",
       "stat": "F",
     },
     {
-      "question": "How many provinces are there in Canada? Ans10",
-      "answer": "Ten",
+      "question": "lib/dev_assets/q4.png",
+      "answer": "four",
       "stat": "F",
     },
     {
-      "question": "How many continents are there in the world? Ans7",
-      "answer": "Seven",
-      "stat": "F",
-    },
-    {
-      "question": "How many sides does a hexagon have? Ans6",
-      "answer": "Six",
-      "stat": "F",
-    },
-    {
-      "question": "How many days are there in a week? Ans7",
-      "answer": "Seven",
-      "stat": "F",
-    },
-    {
-      "question": "How many states are there in Australia? Ans6",
-      "answer": "Six",
-      "stat": "F",
-    },
-    {
-      "question": "How many oxygen atoms are there in a water molecule? Ans1",
-      "answer": "One",
-      "stat": "F",
-    },
-    {
-      "question": "How many books are there in the Harry Potter series? Ans7",
-      "answer": "Seven",
+      "question": "lib/dev_assets/q5.png",
+      "answer": "five",
       "stat": "F",
     },
   ];
@@ -110,11 +83,7 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
     _textController3.dispose();
     _textController4.dispose();
     _textController5.dispose();
-    _textController6.dispose();
-    _textController7.dispose();
-    _textController8.dispose();
-    _textController9.dispose();
-    _textController10.dispose();
+
     super.dispose();
   }
 
@@ -200,11 +169,6 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
       _textController3,
       _textController4,
       _textController5,
-      _textController6,
-      _textController7,
-      _textController8,
-      _textController9,
-      _textController10,
     ];
 
     Future<bool> pointAdder(String id, double points) async {
@@ -224,6 +188,24 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
 
         return false;
       }
+    }
+
+    void _openBottomSheet(BuildContext context, int index, int seconds) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: TimerForNoHintQuestion(seconds, 600),
+              ),
+            ],
+          );
+        },
+      );
     }
 
     // var hi = MediaQuery.of(context).size.height;
@@ -324,7 +306,7 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                       Container(
                         margin: EdgeInsets.only(left: 20, top: 30),
                         child: Text(
-                          'Question no:${_currentIndex + 1}',
+                          'Question no:${_currentIndex + 1}/5',
                           style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.w600,
@@ -334,7 +316,7 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                       _questions[_currentIndex]['stat'] == 'T'
                           ? Container(
                               // height: 60,
-                              margin: EdgeInsets.only(top: 30),
+                              margin: EdgeInsets.only(top: 30, bottom: 30),
                               decoration: BoxDecoration(
                                 color: const Color.fromARGB(255, 182, 222, 255),
                                 // borderRadius: BorderRadius.circular(20),
@@ -343,7 +325,7 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please go to 10th question to Submit all',
+                                'Answer Correct Please go to 5th question to Submit all',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -351,16 +333,14 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                                     color: Colors.black),
                               ), //add some styles
                             )
-                          : Container(
-                              margin: EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 10),
-                              child: Text(
-                                _questions[_currentIndex]['question'] ?? '',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w300),
+                          : Center(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 10, top: 30),
+                                child: Image.asset(
+                                    _questions[_currentIndex]['question']!),
                               ),
                             ),
-
                       SizedBox(height: 10),
                       if (_questions[_currentIndex]['stat'] == 'F')
                         Center(
@@ -400,7 +380,6 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                             ), //add some styles
                           ),
                         ),
-
                       if (_currentIndex == _questions.length - 1)
                         Padding(
                           padding: EdgeInsets.only(
@@ -424,9 +403,23 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                                 ((startLoading, stopLoading, btnState) async {
                               if (btnState == ButtonState.idle) {
                                 startLoading();
-                                // call your network api
+                                int elapsedTime = calculateElapsedTime();
+                                FocusScope.of(context).unfocus();
+                                int countTStat =
+                                    countItemsWithTStat(_questions);
+                                print(
+                                    "Number of items with 'stat' key set to 'T': $countTStat");
+                                print('Quiz submitted');
+                                print('time is ${elapsedTime}');
+                                double points = countTStat / 10;
+                                print('points is countTStat / 10  ${points}');
+                                double diffOf900andET =
+                                    (900 - elapsedTime) * 0.5;
+                                double tot = diffOf900andET * points;
+                                double roundedValue =
+                                    double.parse(tot.toStringAsFixed(2));
                                 var ifSubmitted =
-                                    await pointAdder(widget.id, 100);
+                                    await pointAdder(widget.id, roundedValue);
 
                                 if (ifSubmitted == true) {
                                   setState(() {
@@ -450,55 +443,6 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                             ), //add some styles
                           ),
                         ),
-
-                      // button only if reached the end
-
-                      // Container(
-                      //   height: 60,
-                      //   margin: EdgeInsets.all(15),
-                      //   decoration: BoxDecoration(
-                      //     color: const Color.fromARGB(255, 182, 222, 255),
-                      //     borderRadius: BorderRadius.circular(20),
-                      //   ),
-                      //   width: MediaQuery.of(context).size.width,
-                      //   padding: EdgeInsets.only(left: 10, right: 10),
-
-                      //   child: TextButton(
-                      //     onPressed: () async {
-                      //       int elapsedTime = calculateElapsedTime();
-                      //       FocusScope.of(context).unfocus();
-                      //       int countTStat = countItemsWithTStat(_questions);
-                      //       print(
-                      //           "Number of items with 'stat' key set to 'T': $countTStat");
-                      //       print('Quiz submitted');
-                      //       print('time is ${elapsedTime}');
-                      //       double points = countTStat / 10;
-                      //       print('points is countTStat / 10  ${points}');
-                      //       double diffOf900andET = (900 - elapsedTime) * 0.5;
-                      //       double tot = diffOf900andET * points;
-                      //       double roundedValue =
-                      //           double.parse(tot.toStringAsFixed(2));
-                      //       print(
-                      //           'Total Score tot = diffOf900andET * points is $roundedValue');
-                      //       var ifSubmitted =
-                      //           await pointAdder(widget.id, roundedValue);
-
-                      //       if (ifSubmitted == true) {
-                      //         setState(() {
-                      //           isSubmitted = true;
-                      //         });
-                      //       }
-                      //     },
-                      //     child: const Text(
-                      //       'Submit All',
-                      //       textAlign: TextAlign.center,
-                      //       style: TextStyle(
-                      //           fontSize: 20,
-                      //           fontWeight: FontWeight.w300,
-                      //           color: Colors.black),
-                      //     ), //add some styles
-                      //   ), //heere
-                      // ),
                     ],
                   ),
                 ),
@@ -517,7 +461,7 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                       margin: const EdgeInsets.only(
                           left: 20, right: 20, bottom: 10, top: 30),
                       child: const Text(
-                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically''',
+                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically at T+25 min.''',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w300),
                       ),
@@ -525,6 +469,21 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                   ],
                 ),
               ),
+        floatingActionButton: !isSubmitted
+            ? FloatingActionButton.extended(
+                icon: const Icon(Icons.add),
+                label: const Text('Time Left'),
+                backgroundColor: Color.fromARGB(255, 182, 222, 255),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+                elevation: 3.0,
+                onPressed: () {
+                  int et = calculateElapsedTime();
+                  _openBottomSheet(context, 0, et);
+                },
+              )
+            : null,
       ),
     );
   }
