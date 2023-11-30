@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
+import 'package:initator/screens/qr_scanning_round.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 import 'package:initator/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';
@@ -413,9 +414,9 @@ class _Round2State extends State<Round2> {
                                 print('time is ${elapsedTime}');
                                 double points = countTStat / 10;
                                 print('points is countTStat / 10  ${points}');
-                                double diffOf900andET =
-                                    (900 - elapsedTime) * 0.5;
-                                double tot = diffOf900andET * points;
+                                double diffOf600andET =
+                                    (600 - elapsedTime) * 0.5;
+                                double tot = diffOf600andET * points;
                                 double roundedValue =
                                     double.parse(tot.toStringAsFixed(2));
                                 var ifSubmitted =
@@ -424,6 +425,14 @@ class _Round2State extends State<Round2> {
                                 if (ifSubmitted == true) {
                                   setState(() {
                                     isSubmitted = true;
+                                  });
+                                  Future.delayed(Duration(seconds: 3), () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              QrScanRound(widget.id)),
+                                    );
                                   });
                                 }
                                 if (isSubmitted == false) {
@@ -471,7 +480,7 @@ class _Round2State extends State<Round2> {
               ),
         floatingActionButton: !isSubmitted
             ? FloatingActionButton.extended(
-                icon: const Icon(Icons.add),
+                icon: const Icon(Icons.timer),
                 label: const Text('Time Left'),
                 backgroundColor: Color.fromARGB(255, 182, 222, 255),
                 shape: RoundedRectangleBorder(

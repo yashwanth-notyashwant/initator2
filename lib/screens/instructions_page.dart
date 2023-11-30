@@ -75,17 +75,12 @@ print(_geeks, geeks_, _GEEKS_)
               margin: EdgeInsets.only(right: 20, top: 10),
               child: TextButton(
                 onPressed: () {
-                  // Navigator.of(context).pushReplacement(
-                  //   MaterialPageRoute(
-                  //       builder: (context) => QuizPageConditionals()),
-                  // );
                   Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Round2(widget.id)),
-                    // builder: (context) => Round1Apti15m(widget.id)),
+                    MaterialPageRoute(
+                        // builder: (context) => Round2(widget.id)),
+                        builder: (context) => Round1Apti15m(widget.id)),
                     // builder: (context) => QrScanRound(widget.id)),
                   );
-                  // here pass the user id to change the random fasion
-                  // push to quiz page round N
                 },
                 child: Text(
                   " Start >>",

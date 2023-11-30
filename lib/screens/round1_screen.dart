@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
+import 'package:initator/screens/qr_scanning_round.dart';
+import 'package:initator/screens/round2_screen.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 import 'package:initator/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';
@@ -463,6 +465,14 @@ class _Round1Apti15mState extends State<Round1Apti15m> {
                                 if (ifSubmitted == true) {
                                   setState(() {
                                     isSubmitted = true;
+                                  });
+                                  Future.delayed(Duration(seconds: 3), () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Round2(widget.id)),
+                                    );
                                   });
                                 }
                                 if (isSubmitted == false) {

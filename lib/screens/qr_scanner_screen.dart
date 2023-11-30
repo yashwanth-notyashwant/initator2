@@ -66,8 +66,11 @@ class _QrScannerPageState extends State<QrScannerPage> {
                   width: MediaQuery.of(context).size.width,
                   padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
                   child: TextButton(
-                    onPressed: () async => await scanQR(),
-
+                    onPressed: () async {
+                      await scanQR();
+                      print(_scanBarcode);
+                      print(widget.answerForQr);
+                    },
                     child: const Text(
                       'Start scan',
                       textAlign: TextAlign.center,
@@ -84,7 +87,7 @@ class _QrScannerPageState extends State<QrScannerPage> {
                 Container(
                   margin: EdgeInsets.only(left: 10, right: 10),
                   child: Text(
-                    _scanBarcode == widget.answerForQr
+                    (_scanBarcode == widget.answerForQr)
                         ? "Scan Result: Correct QR"
                         : "Scan Result: Wrong QR",
                     style: TextStyle(fontSize: 20),
