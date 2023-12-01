@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:initator/screens/round4_screen.dart';
 
 class QrScannerPage extends StatefulWidget {
+  late String id;
   late String answerForQr;
 
-  QrScannerPage(this.answerForQr);
+  QrScannerPage(this.answerForQr, this.id);
   @override
   _QrScannerPageState createState() => _QrScannerPageState();
 }
@@ -109,7 +111,10 @@ class _QrScannerPageState extends State<QrScannerPage> {
                   padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
                   child: TextButton(
                     onPressed: () {
-                      //
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => QrScanRoundTrees(widget.id)),
+                      );
                     },
 
                     child: const Text(

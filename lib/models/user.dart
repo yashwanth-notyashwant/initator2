@@ -9,7 +9,7 @@ class User {
 
   String password;
   String name;
-  double milestone;
+  List milestone;
 
   User({
     required this.id,
@@ -22,13 +22,6 @@ class User {
 class Users with ChangeNotifier {
   Future<bool> pointAdder(String id, double points, context) async {
     try {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          });
       // Get a reference to the user's document in Firestore
       DocumentReference userRef =
           FirebaseFirestore.instance.collection('users').doc(id);

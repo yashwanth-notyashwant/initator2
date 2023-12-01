@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
-import 'package:initator/screens/qr_scanning_round.dart';
+import 'package:initator/screens/round3_screen.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 import 'package:initator/widgets/timer_widget.dart';
 import 'package:provider/provider.dart';
@@ -120,6 +120,7 @@ class _Round2State extends State<Round2> {
       setState(() {
         _questions[_currentIndex]['stat'] = 'T';
       });
+      _showNextQuestion();
     } else {
       var toastWidget = toast(false);
       fToast.showToast(
@@ -179,7 +180,18 @@ class _Round2State extends State<Round2> {
             FirebaseFirestore.instance.collection('users').doc(id);
 
         // Update the milestone field by incrementing the provided points
-        await userRef.update({'milestone': FieldValue.increment(points)});
+        await userRef.update({
+          'milestone': [
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+          ]
+        });
 
         print('Milestone updated successfully.');
 
@@ -213,85 +225,97 @@ class _Round2State extends State<Round2> {
     var wi = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
+        // appBar: !isSubmitted
+        //     ? AppBar(
+        //         backgroundColor: Colors.white,
+        //         elevation: 0,
+        //         actions: [
+        //           Row(
+        //             mainAxisAlignment: MainAxisAlignment.start,
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Container(
+        //                 height: 60,
+        //                 width: MediaQuery.of(context).size.width * 0.5 - 10,
+        //                 decoration: const BoxDecoration(
+        //                   color: Color.fromARGB(255, 182, 222, 255),
+        //                   borderRadius: BorderRadius.only(
+        //                     topLeft: Radius.circular(20),
+        //                     bottomLeft: Radius.circular(20),
+        //                   ),
+        //                 ),
+        //                 margin: EdgeInsets.only(top: 10),
+        //                 child: TextButton(
+        //                   style: TextButton.styleFrom(
+        //                     shape: const RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.only(
+        //                         topLeft: Radius.circular(20),
+        //                         bottomLeft: Radius.circular(20),
+        //                       ), // Set the border radius here
+        //                     ),
+        //                   ),
+        //                   onPressed: () {
+        //                     _showPreviousQuestion();
+        //                   },
+        //                   child: const Text(
+        //                     "<< Previous ",
+        //                     style: TextStyle(
+        //                       color: Colors.black,
+        //                       fontSize: 16,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //               const SizedBox(
+        //                 width: 10,
+        //               ),
+        //               Container(
+        //                 height: 60,
+        //                 width: MediaQuery.of(context).size.width * 0.5 - 10,
+        //                 decoration: const BoxDecoration(
+        //                   color: Color.fromARGB(255, 182, 222, 255),
+        //                   borderRadius: BorderRadius.only(
+        //                     topRight: Radius.circular(20),
+        //                     bottomRight: Radius.circular(20),
+        //                   ),
+        //                 ),
+        //                 margin: EdgeInsets.only(top: 10, right: 5),
+        //                 child: TextButton(
+        //                   style: TextButton.styleFrom(
+        //                     shape: const RoundedRectangleBorder(
+        //                       borderRadius: BorderRadius.only(
+        //                         topRight: Radius.circular(20),
+        //                         bottomRight: Radius.circular(20),
+        //                       ), // Set the border radius here
+        //                     ),
+        //                   ),
+        //                   onPressed: () {
+        //                     _showNextQuestion();
+        //                   },
+        //                   child: const Text(
+        //                     " Next >>",
+        //                     style: TextStyle(
+        //                       color: Colors.black,
+        //                       fontSize: 16,
+        //                     ),
+        //                   ),
+        //                 ),
+        //               ),
+        //             ],
+        //           ),
+        //         ],
+        //       )
+        //     : AppBar(
+
         appBar: !isSubmitted
             ? AppBar(
-                backgroundColor: Colors.white,
-                elevation: 0,
-                actions: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width * 0.5 - 10,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 182, 222, 255),
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20),
-                          ),
-                        ),
-                        margin: EdgeInsets.only(top: 10),
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
-                              ), // Set the border radius here
-                            ),
-                          ),
-                          onPressed: () {
-                            _showPreviousQuestion();
-                          },
-                          child: const Text(
-                            "<< Previous ",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width * 0.5 - 10,
-                        decoration: const BoxDecoration(
-                          color: Color.fromARGB(255, 182, 222, 255),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                          ),
-                        ),
-                        margin: EdgeInsets.only(top: 10, right: 5),
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ), // Set the border radius here
-                            ),
-                          ),
-                          onPressed: () {
-                            _showNextQuestion();
-                          },
-                          child: const Text(
-                            " Next >>",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                title: Text(
+                  'Round 2  ',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400,
                   ),
-                ],
+                ),
               )
             : AppBar(
                 title: Text(''),
@@ -402,25 +426,21 @@ class _Round2State extends State<Round2> {
                             ),
                             onTap:
                                 ((startLoading, stopLoading, btnState) async {
+                              if (_questions[_currentIndex]['stat'] == 'F') {
+                                var toastWidget = toast(false);
+                                fToast.showToast(
+                                  child: toastWidget,
+                                  gravity: ToastGravity.BOTTOM,
+                                  toastDuration: Duration(seconds: 1),
+                                );
+
+                                return;
+                              }
                               if (btnState == ButtonState.idle) {
                                 startLoading();
-                                int elapsedTime = calculateElapsedTime();
-                                FocusScope.of(context).unfocus();
-                                int countTStat =
-                                    countItemsWithTStat(_questions);
-                                print(
-                                    "Number of items with 'stat' key set to 'T': $countTStat");
-                                print('Quiz submitted');
-                                print('time is ${elapsedTime}');
-                                double points = countTStat / 10;
-                                print('points is countTStat / 10  ${points}');
-                                double diffOf600andET =
-                                    (600 - elapsedTime) * 0.5;
-                                double tot = diffOf600andET * points;
-                                double roundedValue =
-                                    double.parse(tot.toStringAsFixed(2));
+
                                 var ifSubmitted =
-                                    await pointAdder(widget.id, roundedValue);
+                                    await pointAdder(widget.id, 2);
 
                                 if (ifSubmitted == true) {
                                   setState(() {
@@ -470,7 +490,7 @@ class _Round2State extends State<Round2> {
                       margin: const EdgeInsets.only(
                           left: 20, right: 20, bottom: 10, top: 30),
                       child: const Text(
-                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically at T+25 min.''',
+                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically''',
                         style: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.w300),
                       ),
@@ -480,8 +500,8 @@ class _Round2State extends State<Round2> {
               ),
         floatingActionButton: !isSubmitted
             ? FloatingActionButton.extended(
-                icon: const Icon(Icons.timer),
-                label: const Text('Time Left'),
+                icon: const Icon(Icons.warning),
+                label: const Text('Warning'),
                 backgroundColor: Color.fromARGB(255, 182, 222, 255),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),

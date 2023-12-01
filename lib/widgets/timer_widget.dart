@@ -19,7 +19,7 @@ class _CountdownTimerState extends State<CountdownTimer> {
   void initState() {
     super.initState();
 
-    _secondsRemaining = 200 - widget.seconds;
+    _secondsRemaining = 600 - widget.seconds;
 
     if (_secondsRemaining <= 0) {
       _secondsRemaining = 0;

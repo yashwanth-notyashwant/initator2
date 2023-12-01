@@ -303,7 +303,16 @@ class _AddNewUserState extends State<AddNewUser> {
                             id: myController2.text.toString().trim(),
                             password: myController3.text.toString().trim(),
                             name: myController1.text.toString().trim(),
-                            milestone: 0.01),
+                            milestone: [
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0,
+                            ]),
                       );
 
                       if (isUserAdded == true) {

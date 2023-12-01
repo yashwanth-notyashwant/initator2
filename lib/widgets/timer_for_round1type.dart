@@ -53,21 +53,21 @@ class _TimerForNoHintQuestionState extends State<TimerForNoHintQuestion> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          margin: EdgeInsets.only(left: 20, right: 10, top: 25),
-          child: Text(
-            'Please submit you answers within: $minutes: ${seconds.toString().padLeft(2, '0')}',
+        // Container(
+        //   margin: EdgeInsets.only(left: 20, right: 10, top: 25),
+        //   child: Text(
+        //     'Please submit you answers within: $minutes: ${seconds.toString().padLeft(2, '0')}',
 
-            // questions[currenRandomQuestionIndex],
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
-          ),
-        ),
+        //     // questions[currenRandomQuestionIndex],
+        //     style: TextStyle(fontSize: 22, fontWeight: FontWeight.w400),
+        //   ),
+        // ),
         SizedBox(height: 30),
         Container(
           margin: EdgeInsets.only(left: 20, top: 20, right: 10),
           // color: const Color.fromARGB(255, 255, 247, 247),
-          child: Text(
-            "Your answers will only be recoreded if these questions are submitted within the given duration, failing to do so might lead to incorrect result calculations ",
+          child: const Text(
+            "Your answers will only be recoreded if these questions are submitted at the end, failing to do so might lead to progress not being saved.",
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
             textAlign: TextAlign.start,
           ),

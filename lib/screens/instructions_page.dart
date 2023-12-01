@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:initator/screens/round1_screen.dart';
-import 'package:initator/screens/qr_scanning_round.dart';
+import 'package:initator/screens/round3_screen.dart';
 import 'package:initator/screens/round2_screen.dart';
 
 // ignore: must_be_immutable

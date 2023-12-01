@@ -130,7 +130,7 @@ class _QrScanRoundState extends State<QrScanRound> {
         Navigator.of(context).push(
           MaterialPageRoute(
               builder: (context) =>
-                  QrScannerPage(answers[currenRandomQuestionIndex])),
+                  QrScannerPage(answers[currenRandomQuestionIndex], id)),
         );
       } else {
         var toastWidget = toast(false);
