@@ -66,7 +66,7 @@ class _QrScanRoundTreesState extends State<QrScanRoundTrees> {
   }
 
   List<String> questions = [
-    ' What is a conditional ditional statemen thonnal dit nal statement in P used to make  your conditional statement in Python? ans 1 ',
+    ' What is a conditional ditional statement in Python is used to make nal ditional statement in Python is used to make decisionsnal ditional statement in Pythonnal ditional statement in P isnal ditional statement in P usednal ditional statement in P tonal ditional statement in P makenal ditional statement in P  innalnal ditional statement in P ditionalnal ditional statement in P statementnal ditional statement in P innal ditional statement in P Pythonnal ditional statement in P isnal ditional statement in P used to make  your conditional statement in Python? ans 1 ',
     'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 2 ',
     'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 3 ',
     'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 4 ',
@@ -127,10 +127,11 @@ class _QrScanRoundTreesState extends State<QrScanRoundTrees> {
           toastDuration: Duration(seconds: 1),
         );
 
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (context) =>
-                  QrScannerPage(answers[currenRandomQuestionIndex], id)),
+            builder: (context) =>
+                QrScannerPageFor1(answers[currenRandomQuestionIndex], id, 2),
+          ),
         );
       } else {
         var toastWidget = toast(false);
@@ -149,6 +150,13 @@ class _QrScanRoundTreesState extends State<QrScanRoundTrees> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          title: Text(
+            'Round 4 ',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
           actions: [
             Container(
               decoration: BoxDecoration(

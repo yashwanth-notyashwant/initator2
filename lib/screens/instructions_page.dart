@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:initator/screens/round1_screen.dart';
 import 'package:initator/screens/round3_screen.dart';
 import 'package:initator/screens/round2_screen.dart';
+import 'package:initator/screens/round5_screen.dart';
+import 'package:initator/screens/round6_screen.dart';
+import 'package:initator/screens/round8_screen.dart';
 
 // ignore: must_be_immutable
 class InstructionsScreen extends StatefulWidget {
@@ -60,12 +63,6 @@ print(_geeks, geeks_, _GEEKS_)
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          // leading: BackButton(
-          //   color: Colors.black,
-          //   onPressed: () {
-          //     Navigator.of(context).pop();
-          //   },
-          // ),
           actions: [
             Container(
               decoration: BoxDecoration(
@@ -78,7 +75,7 @@ print(_geeks, geeks_, _GEEKS_)
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                         // builder: (context) => Round2(widget.id)),
-                        builder: (context) => Round1Apti15m(widget.id)),
+                        builder: (context) => Round1(widget.id)),
                     // builder: (context) => QrScanRound(widget.id)),
                   );
                 },

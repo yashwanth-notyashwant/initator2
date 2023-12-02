@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:initator/screens/add_user_screen.dart';
 import 'package:initator/screens/instructions_page.dart';
@@ -227,6 +228,10 @@ class _AuthPageState extends State<AuthPage> {
                                   .fetchUserFromFirestore(
                                       myController1.text.toString());
 
+                              if (user == null) {
+                                return;
+                              }
+
                               if (myController2.text.toString().trim() ==
                                       'pass' &&
                                   myController1.text.toString().trim() ==
@@ -239,27 +244,31 @@ class _AuthPageState extends State<AuthPage> {
                                   ),
                                 );
 
-                                // if (myController2.text.toString().trim() ==
-                                //     user?.password.toString()) {
-                                //   // ignore: use_build_context_synchronously
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(
-                                //       builder: (context) => AddNewUser(),
-                                //     ),
-                                //   );
-
                                 print(user?.id.toString());
                                 print(user?.milestone.toString());
                                 print(user?.name.toString());
-                              } else if (user != null) {
-                                Navigator.pushReplacement(
+                              } else if (user?.password.toString().trim() !=
+                                  myController2.text.toString().trim()) {
+                                Fluttertoast.showToast(
+                                    msg: "Wrong Password, try again",
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.CENTER,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor:
+                                        Color.fromARGB(255, 255, 255, 255),
+                                    textColor: Color.fromARGB(255, 0, 0, 0),
+                                    fontSize: 16.0);
+                                return;
+                              } else if (user?.password.toString().trim() ==
+                                  myController2.text.toString().trim()) {
+                                Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) =>
                                         InstructionsScreen(user.id.toString()),
                                   ),
                                 );
+                                // ignore: use_build_context_synchronously
                               } else {
                                 return;
                               }

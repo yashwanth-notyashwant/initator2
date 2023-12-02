@@ -127,10 +127,11 @@ class _QrScanRoundState extends State<QrScanRound> {
           toastDuration: Duration(seconds: 1),
         );
 
-        Navigator.of(context).push(
+        Navigator.of(context).pushReplacement(
           MaterialPageRoute(
-              builder: (context) =>
-                  QrScannerPage(answers[currenRandomQuestionIndex], id)),
+            builder: (context) =>
+                QrScannerPageFor1(answers[currenRandomQuestionIndex], id, 1),
+          ),
         );
       } else {
         var toastWidget = toast(false);
@@ -149,6 +150,13 @@ class _QrScanRoundState extends State<QrScanRound> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          title: Text(
+            'Round 3 ',
+            style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.w400,
+            ),
+          ),
           actions: [
             Container(
               decoration: BoxDecoration(

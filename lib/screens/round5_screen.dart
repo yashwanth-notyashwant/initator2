@@ -1,84 +1,34 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:initator/screens/auth_page.dart';
 
 import 'package:initator/screens/round2_screen.dart';
+import 'package:initator/screens/round6_screen.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 
 import 'package:loading_btn/loading_btn.dart';
 
 // ignore: must_be_immutable
-class Round1 extends StatefulWidget {
+class Round5 extends StatefulWidget {
   late String id;
-  Round1(this.id);
+  Round5(this.id);
   @override
-  State<Round1> createState() => _Round1State();
+  State<Round5> createState() => _Round5State();
 }
 
-class _Round1State extends State<Round1> {
+class _Round5State extends State<Round5> {
   late DateTime startTime;
   final TextEditingController _textController1 = TextEditingController();
-  final TextEditingController _textController2 = TextEditingController();
-  final TextEditingController _textController3 = TextEditingController();
-  final TextEditingController _textController4 = TextEditingController();
-  final TextEditingController _textController5 = TextEditingController();
-  final TextEditingController _textController6 = TextEditingController();
-  final TextEditingController _textController7 = TextEditingController();
-  final TextEditingController _textController8 = TextEditingController();
-  final TextEditingController _textController9 = TextEditingController();
-  final TextEditingController _textController10 = TextEditingController();
+
   int _currentIndex = 0;
   bool isSubmitted = false;
 
   final List<Map<String, String>> _questions = [
     {
-      "question": "How many planets are in our solar system? Ans8",
-      "answer": "Eight",
-      "stat": "F",
-    },
-    {
-      "question": "How many elements are there in the periodic table? Ans1",
-      "answer": "One",
-      "stat": "F",
-    },
-    {
-      "question": "How many years did the Hundred Years' War last? Ans15",
-      "answer": "fifteen",
-      "stat": "F",
-    },
-    {
-      "question": "How many provinces are there in Canada? Ans10",
-      "answer": "Ten",
-      "stat": "F",
-    },
-    {
-      "question": "How many continents are there in the world? Ans7",
-      "answer": "Seven",
-      "stat": "F",
-    },
-    {
-      "question": "How many sides does a hexagon have? Ans6",
-      "answer": "Six",
-      "stat": "F",
-    },
-    {
-      "question": "How many days are there in a week? Ans7",
-      "answer": "Seven",
-      "stat": "F",
-    },
-    {
-      "question": "How many states are there in Australia? Ans6",
-      "answer": "Six",
-      "stat": "F",
-    },
-    {
-      "question": "How many oxygen atoms are there in a water molecule? Ans1",
-      "answer": "One",
-      "stat": "F",
-    },
-    {
-      "question": "How many books are there in the Harry Potter series? Ans7",
-      "answer": "Seven",
+      "question":
+          "This is a morse coede round for which the answer will be 1111",
+      "answer": "1111",
       "stat": "F",
     },
   ];
@@ -107,15 +57,7 @@ class _Round1State extends State<Round1> {
   @override
   void dispose() {
     _textController1.dispose();
-    _textController2.dispose();
-    _textController3.dispose();
-    _textController4.dispose();
-    _textController5.dispose();
-    _textController6.dispose();
-    _textController7.dispose();
-    _textController8.dispose();
-    _textController9.dispose();
-    _textController10.dispose();
+
     super.dispose();
   }
 
@@ -151,7 +93,7 @@ class _Round1State extends State<Round1> {
       setState(() {
         _questions[_currentIndex]['stat'] = 'T';
       });
-      _showNextQuestion();
+      // _showNextQuestion();
     } else {
       var toastWidget = toast(false);
       fToast.showToast(
@@ -162,24 +104,6 @@ class _Round1State extends State<Round1> {
 
       print('Wrong answer!');
     }
-  }
-
-  void _showNextQuestion() {
-    if (_currentIndex == _questions.length - 1) {
-      return;
-    }
-    setState(() {
-      _currentIndex = (_currentIndex + 1) % _questions.length;
-    });
-  }
-
-  void _showPreviousQuestion() {
-    if (_currentIndex == 0) {
-      return;
-    }
-    setState(() {
-      _currentIndex = (_currentIndex - 1) % _questions.length;
-    });
   }
 
   int countItemsWithTStat(List<Map<String, String>> list) {
@@ -198,15 +122,6 @@ class _Round1State extends State<Round1> {
   Widget build(BuildContext context) {
     List CpntrollerList = [
       _textController1,
-      _textController2,
-      _textController3,
-      _textController4,
-      _textController5,
-      _textController6,
-      _textController7,
-      _textController8,
-      _textController9,
-      _textController10,
     ];
 
     Future<bool> pointAdder(String id, int points) async {
@@ -220,10 +135,10 @@ class _Round1State extends State<Round1> {
         await userRef.update({
           'milestone': [
             1,
-            0,
-            0,
-            0,
-            0,
+            1,
+            1,
+            1,
+            1,
             0,
             0,
             0,
@@ -258,95 +173,13 @@ class _Round1State extends State<Round1> {
       );
     }
 
-    // var hi = MediaQuery.of(context).size.height;
     var wi = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
-        // appBar: !isSubmitted
-        // ? AppBar(
-        //     backgroundColor: Colors.white,
-        //     elevation: 0,
-        //     actions: [
-        //       Row(
-        //         mainAxisAlignment: MainAxisAlignment.start,
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           Container(
-        //             height: 60,
-        //             width: MediaQuery.of(context).size.width * 0.5 - 10,
-        //             decoration: const BoxDecoration(
-        //               color: Color.fromARGB(255, 182, 222, 255),
-        //               borderRadius: BorderRadius.only(
-        //                 topLeft: Radius.circular(20),
-        //                 bottomLeft: Radius.circular(20),
-        //               ),
-        //             ),
-        //             margin: EdgeInsets.only(top: 10),
-        //             child: TextButton(
-        //               style: TextButton.styleFrom(
-        //                 shape: const RoundedRectangleBorder(
-        //                   borderRadius: BorderRadius.only(
-        //                     topLeft: Radius.circular(20),
-        //                     bottomLeft: Radius.circular(20),
-        //                   ), // Set the border radius here
-        //                 ),
-        //               ),
-        //               onPressed: () {
-        //                 _showPreviousQuestion();
-        //               },
-        //               child: const Text(
-        //                 "<< Previous ",
-        //                 style: TextStyle(
-        //                   color: Colors.black,
-        //                   fontSize: 16,
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //           const SizedBox(
-        //             width: 10,
-        //           ),
-        //           Container(
-        //             height: 60,
-        //             width: MediaQuery.of(context).size.width * 0.5 - 10,
-        //             decoration: const BoxDecoration(
-        //               color: Color.fromARGB(255, 182, 222, 255),
-        //               borderRadius: BorderRadius.only(
-        //                 topRight: Radius.circular(20),
-        //                 bottomRight: Radius.circular(20),
-        //               ),
-        //             ),
-        //             margin: EdgeInsets.only(top: 10, right: 5),
-        //             child: TextButton(
-        //               style: TextButton.styleFrom(
-        //                 shape: const RoundedRectangleBorder(
-        //                   borderRadius: BorderRadius.only(
-        //                     topRight: Radius.circular(20),
-        //                     bottomRight: Radius.circular(20),
-        //                   ), // Set the border radius here
-        //                 ),
-        //               ),
-        //               onPressed: () {
-        //                 _showNextQuestion();
-        //               },
-        //               child: const Text(
-        //                 " Next >>",
-        //                 style: TextStyle(
-        //                   color: Colors.black,
-        //                   fontSize: 16,
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   )
-        // :
         appBar: !isSubmitted
             ? AppBar(
                 title: Text(
-                  'Round 1',
+                  'Round 5',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w400,
@@ -386,7 +219,7 @@ class _Round1State extends State<Round1> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please go to 10th question to Submit all',
+                                'Answer Correct Please Submit ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -489,8 +322,9 @@ class _Round1State extends State<Round1> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Round2(widget.id)),
+                                              Round6(widget.id)),
                                     );
+                                    // goto next-round
                                   });
                                 }
                                 if (isSubmitted == false) {
