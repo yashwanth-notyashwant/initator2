@@ -11,14 +11,19 @@ class User {
   String name;
   List milestone;
   bool isStarted;
+  Timestamp? timestamp;
+  Timestamp? timestampFinal;
+  int? sec;
 
-  User({
-    required this.id,
-    required this.password,
-    required this.name,
-    required this.milestone,
-    required this.isStarted,
-  });
+  User(
+      {required this.id,
+      required this.password,
+      required this.name,
+      required this.milestone,
+      required this.isStarted,
+      this.timestamp,
+      this.timestampFinal,
+      this.sec});
 }
 
 class Users with ChangeNotifier {
@@ -85,6 +90,55 @@ class Users with ChangeNotifier {
           name: userData['name'],
           milestone: userData['milestone'],
           isStarted: userData['isStarted'],
+        );
+
+        return user;
+      } else {
+        Fluttertoast.showToast(
+            msg: "NOT FOUND",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            textColor: Color.fromARGB(255, 0, 0, 0),
+            fontSize: 16.0);
+        return null;
+      }
+    } catch (error) {
+      print('hereherehehrehrherhehr');
+      Fluttertoast.showToast(
+          msg: "${error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          textColor: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 16.0);
+      print(error);
+      return null;
+    }
+  }
+
+  Future<User?> fetchUserFromFirestoreForidTinitalTfinal(String userId) async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .get();
+      print('hello ');
+      // print(snapshot);
+
+      if (snapshot.exists) {
+        final userData = snapshot.data() as Map<String, dynamic>;
+        final user = User(
+          id: userData['id'],
+          password: userData['password'],
+          name: userData['name'],
+          milestone: userData['milestone'],
+          isStarted: userData['isStarted'],
+          timestamp: userData['timestamp'],
+          timestampFinal: userData['timestampFinal'],
+          sec: userData['sec'],
         );
 
         return user;

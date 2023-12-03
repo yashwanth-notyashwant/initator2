@@ -10,9 +10,14 @@ class _FianlScreenState extends State<FianlScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Text(
-              'Your have fully completed the submission process please wait for the results , Thank yuu'),
+        body: Container(
+          margin: EdgeInsets.all(20),
+          child: Center(
+            child: Text(
+              'Your have fully completed the submission process please wait for the results, Thank you !',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+            ),
+          ),
         ),
       ),
     );

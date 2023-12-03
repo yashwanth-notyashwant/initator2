@@ -62,10 +62,11 @@ print(_geeks, geeks_, _GEEKS_)
       // Get a reference to the user's document in Firestore
       DocumentReference userRef =
           FirebaseFirestore.instance.collection('users').doc(id);
+      Timestamp timestamp = Timestamp.now();
 
-      // Update the milestone field by incrementing the provided points
       await userRef.update({
         'isStarted': true,
+        'timestamp': timestamp,
       });
 
       print('Milestone updated successfully.');

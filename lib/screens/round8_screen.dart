@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:initator/models/user.dart';
 import 'package:initator/screens/auth_page.dart';
 import 'package:initator/screens/final_screen.dart';
 
@@ -10,6 +11,7 @@ import 'package:pod_player/pod_player.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 
 import 'package:loading_btn/loading_btn.dart';
+import 'package:provider/provider.dart';
 
 // ignore: must_be_immutable
 class Round8 extends StatefulWidget {
@@ -132,11 +134,9 @@ class _Round8State extends State<Round8> {
 
     Future<bool> pointAdder(String id, int points) async {
       try {
-        // mark the list [0,0,0,0,0,0,0,0] to -- > [1,0,0,0,0,0,0,0]
-        // Get a reference to the user's document in Firestore
         DocumentReference userRef =
             FirebaseFirestore.instance.collection('users').doc(id);
-
+        Timestamp timestamp = Timestamp.now();
         await userRef.update({
           'milestone': [
             1,
@@ -147,7 +147,28 @@ class _Round8State extends State<Round8> {
             1,
             1,
             1,
-          ]
+          ],
+          'timestampFinal': timestamp,
+        });
+
+        var user = await Provider.of<Users>(context, listen: false)
+            .fetchUserFromFirestoreForidTinitalTfinal(widget.id);
+
+        int? calculateSecondsTaken() {
+          if (user?.timestamp != null && user?.timestampFinal != null) {
+            Duration? duration = user?.timestampFinal!
+                .toDate()
+                .difference(user.timestamp!.toDate());
+            return duration?.inSeconds;
+          } else {
+            return 0; // or some default value indicating that timestamps are not set
+          }
+        }
+
+        var sec = calculateSecondsTaken();
+
+        await userRef.update({
+          'sec': sec,
         });
 
         print('Milestone updated successfully.');

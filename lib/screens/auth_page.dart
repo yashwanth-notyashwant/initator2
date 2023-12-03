@@ -12,6 +12,7 @@ import 'package:initator/screens/round5_screen.dart';
 import 'package:initator/screens/round6_screen.dart';
 import 'package:initator/screens/round7_screen.dart';
 import 'package:initator/screens/round8_screen.dart';
+import 'package:loading_btn/loading_btn.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -209,42 +210,45 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(top: 20.0),
-                    padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                    // padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Expanded(
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor:
-                                  Color.fromARGB(255, 37, 237, 237),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30.0)),
+                        Padding(
+                          padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width * 0.0),
+                          child: LoadingBtn(
+                            width: MediaQuery.of(context).size.width * 0.9,
+                            height: 60,
+                            borderRadius: 30,
+                            animate: true,
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            child: const Text(
+                              'Login',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black),
                             ),
-                            child: Container(
-                              height: 38,
-                              child: const Padding(
-                                padding: EdgeInsets.only(left: 10.0, top: 5),
-                                child: Text(
-                                  "Login",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 22),
-                                ),
+                            loader: Container(
+                              padding: const EdgeInsets.all(10),
+                              width: 40,
+                              height: 40,
+                              child: const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.black),
                               ),
                             ),
-                            onPressed: () async {
-                              var user = await Provider.of<Users>(context,
-                                      listen: false)
-                                  .fetchUserFromFirestore(
-                                      myController1.text.toString());
-
-                              if (user == null) {
-                                return;
-                              }
-
+                            onTap:
+                                ((startLoading, stopLoading, btnState) async {
+                              startLoading();
                               if (myController2.text.toString().trim() ==
                                       'pass' &&
                                   myController1.text.toString().trim() ==
                                       '6363') {
+                                stopLoading();
                                 // ignore: use_build_context_synchronously
                                 Navigator.push(
                                   context,
@@ -252,12 +256,22 @@ class _AuthPageState extends State<AuthPage> {
                                     builder: (context) => AddNewUser(),
                                   ),
                                 );
+                                return;
+                              }
 
-                                print(user.id.toString());
-                                print(user.milestone.toString());
-                                print(user.name.toString());
-                              } else if (user.password.toString().trim() !=
+                              var user = await Provider.of<Users>(context,
+                                      listen: false)
+                                  .fetchUserFromFirestore(
+                                      myController1.text.toString());
+
+                              if (user == null) {
+                                stopLoading();
+                                return;
+                              }
+
+                              if (user.password.toString().trim() !=
                                   myController2.text.toString().trim()) {
+                                stopLoading();
                                 Fluttertoast.showToast(
                                     msg: "Wrong Password, try again",
                                     toastLength: Toast.LENGTH_SHORT,
@@ -272,6 +286,7 @@ class _AuthPageState extends State<AuthPage> {
                                   myController2.text.toString().trim()) {
                                 if (user.milestone[0] == 0 &&
                                     user.isStarted == false) {
+                                  stopLoading();
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
@@ -280,8 +295,10 @@ class _AuthPageState extends State<AuthPage> {
                                           user.id.toString()),
                                     ),
                                   );
+                                  return;
                                 } else if (user.milestone[0] == 0 &&
                                     user.isStarted == true) {
+                                  stopLoading();
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
@@ -290,8 +307,10 @@ class _AuthPageState extends State<AuthPage> {
                                           Round1(user.id.toString()),
                                     ),
                                   );
+                                  return;
                                 } else if (user.milestone[7] == 1 &&
                                     user.isStarted == true) {
+                                  stopLoading();
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
@@ -299,10 +318,12 @@ class _AuthPageState extends State<AuthPage> {
                                       builder: (context) => FianlScreen(),
                                     ),
                                   );
+                                  return;
                                 }
 
                                 if (user.milestone[0] == 1 &&
                                     user.isStarted == true) {
+                                  stopLoading();
                                   int firstZeroIndex = user.milestone
                                       .indexWhere((element) => element == 0);
                                   int clsIndex = 0;
@@ -332,7 +353,7 @@ class _AuthPageState extends State<AuthPage> {
                               } else {
                                 return;
                               }
-                            },
+                            }),
                           ),
                         ),
                       ],
