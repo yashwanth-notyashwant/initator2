@@ -221,7 +221,7 @@ class _QrScannerPageFor1State extends State<QrScannerPageFor1> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              QrScanRoundTrees(widget.id)),
+                                              Round4(widget.id)),
                                     );
                                   } else if (widget.roundCount == 2) {
                                     Navigator.pushReplacement(

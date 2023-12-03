@@ -369,7 +369,7 @@ class _Round2State extends State<Round2> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              QrScanRound(widget.id)),
+                                              Round3(widget.id)),
                                     );
                                   });
                                 }

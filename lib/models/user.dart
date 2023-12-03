@@ -10,12 +10,14 @@ class User {
   String password;
   String name;
   List milestone;
+  bool isStarted;
 
   User({
     required this.id,
     required this.password,
     required this.name,
     required this.milestone,
+    required this.isStarted,
   });
 }
 
@@ -46,6 +48,7 @@ class Users with ChangeNotifier {
         'password': newUser.password,
         'name': newUser.name,
         'milestone': newUser.milestone,
+        'isStarted': newUser.isStarted,
       });
 
       notifyListeners();
@@ -81,6 +84,7 @@ class Users with ChangeNotifier {
           password: userData['password'],
           name: userData['name'],
           milestone: userData['milestone'],
+          isStarted: userData['isStarted'],
         );
 
         return user;

@@ -6,14 +6,14 @@ import 'package:initator/widgets/timer_widget.dart';
 import 'package:flutter/services.dart';
 
 // ignore: must_be_immutable
-class QrScanRoundTrees extends StatefulWidget {
+class Round4 extends StatefulWidget {
   late String id;
-  QrScanRoundTrees(this.id);
+  Round4(this.id);
   @override
-  _QrScanRoundTreesState createState() => _QrScanRoundTreesState();
+  _Round4State createState() => _Round4State();
 }
 
-class _QrScanRoundTreesState extends State<QrScanRoundTrees> {
+class _Round4State extends State<Round4> {
   late String id;
   late int reqNum;
   late int currenRandomQuestionIndex;

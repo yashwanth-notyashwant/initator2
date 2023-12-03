@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:initator/screens/round1_screen.dart';
 import 'package:initator/screens/round3_screen.dart';
@@ -54,6 +55,29 @@ print(_geeks, geeks_, _GEEKS_)
 
 """,
   ];
+
+  Future<bool> pointAdder(String id) async {
+    try {
+      // mark the list [0,0,0,0,0,0,0,0] to -- > [1,0,0,0,0,0,0,0]
+      // Get a reference to the user's document in Firestore
+      DocumentReference userRef =
+          FirebaseFirestore.instance.collection('users').doc(id);
+
+      // Update the milestone field by incrementing the provided points
+      await userRef.update({
+        'isStarted': true,
+      });
+
+      print('Milestone updated successfully.');
+
+      return true;
+    } catch (error) {
+      print('Error updating milestone: $error');
+
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // var hi = MediaQuery.of(context).size.height;
@@ -71,7 +95,8 @@ print(_geeks, geeks_, _GEEKS_)
               ),
               margin: EdgeInsets.only(right: 20, top: 10),
               child: TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await pointAdder(widget.id);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                         // builder: (context) => Round2(widget.id)),

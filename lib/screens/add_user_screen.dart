@@ -300,19 +300,21 @@ class _AddNewUserState extends State<AddNewUser> {
                         listen: false,
                       ).addUserToFirestore(
                         User(
-                            id: myController2.text.toString().trim(),
-                            password: myController3.text.toString().trim(),
-                            name: myController1.text.toString().trim(),
-                            milestone: [
-                              0,
-                              0,
-                              0,
-                              0,
-                              0,
-                              0,
-                              0,
-                              0,
-                            ]),
+                          id: myController2.text.toString().trim(),
+                          password: myController3.text.toString().trim(),
+                          name: myController1.text.toString().trim(),
+                          milestone: [
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0,
+                          ],
+                          isStarted: false,
+                        ),
                       );
 
                       if (isUserAdded == true) {

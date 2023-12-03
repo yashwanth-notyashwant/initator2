@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/screens/auth_page.dart';
+import 'package:initator/screens/final_screen.dart';
 
 import 'package:pod_player/pod_player.dart';
 
@@ -343,8 +344,7 @@ class _Round8State extends State<Round8> {
                                     Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              Round8(widget.id)),
+                                          builder: (context) => FianlScreen()),
                                     );
 
                                     // goto next-round

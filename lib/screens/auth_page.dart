@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:initator/screens/add_user_screen.dart';
+import 'package:initator/screens/final_screen.dart';
 import 'package:initator/screens/instructions_page.dart';
+import 'package:initator/screens/round1_screen.dart';
+import 'package:initator/screens/round2_screen.dart';
+import 'package:initator/screens/round3_screen.dart';
+import 'package:initator/screens/round4_screen.dart';
+import 'package:initator/screens/round5_screen.dart';
+import 'package:initator/screens/round6_screen.dart';
+import 'package:initator/screens/round7_screen.dart';
+import 'package:initator/screens/round8_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user.dart';
@@ -244,10 +253,10 @@ class _AuthPageState extends State<AuthPage> {
                                   ),
                                 );
 
-                                print(user?.id.toString());
-                                print(user?.milestone.toString());
-                                print(user?.name.toString());
-                              } else if (user?.password.toString().trim() !=
+                                print(user.id.toString());
+                                print(user.milestone.toString());
+                                print(user.name.toString());
+                              } else if (user.password.toString().trim() !=
                                   myController2.text.toString().trim()) {
                                 Fluttertoast.showToast(
                                     msg: "Wrong Password, try again",
@@ -259,16 +268,67 @@ class _AuthPageState extends State<AuthPage> {
                                     textColor: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16.0);
                                 return;
-                              } else if (user?.password.toString().trim() ==
+                              } else if (user.password.toString().trim() ==
                                   myController2.text.toString().trim()) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        InstructionsScreen(user.id.toString()),
-                                  ),
-                                );
-                                // ignore: use_build_context_synchronously
+                                if (user.milestone[0] == 0 &&
+                                    user.isStarted == false) {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => InstructionsScreen(
+                                          user.id.toString()),
+                                    ),
+                                  );
+                                } else if (user.milestone[0] == 0 &&
+                                    user.isStarted == true) {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          Round1(user.id.toString()),
+                                    ),
+                                  );
+                                } else if (user.milestone[7] == 1 &&
+                                    user.isStarted == true) {
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => FianlScreen(),
+                                    ),
+                                  );
+                                }
+
+                                if (user.milestone[0] == 1 &&
+                                    user.isStarted == true) {
+                                  int firstZeroIndex = user.milestone
+                                      .indexWhere((element) => element == 0);
+                                  int clsIndex = 0;
+
+                                  clsIndex = firstZeroIndex;
+
+                                  List<Widget> allClass = [
+                                    Round1(user.id.toString()),
+                                    Round2(user.id.toString()),
+                                    Round3(user.id.toString()),
+                                    Round4(user.id.toString()),
+                                    Round5(user.id.toString()),
+                                    Round6(user.id.toString()),
+                                    Round7(user.id.toString()),
+                                    Round8(user.id.toString()),
+                                  ];
+
+                                  // ignore: use_build_context_synchronously
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            allClass[clsIndex]),
+                                  );
+                                  return;
+                                }
                               } else {
                                 return;
                               }
