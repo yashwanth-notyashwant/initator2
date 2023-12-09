@@ -32,53 +32,42 @@ class _Round1State extends State<Round1> {
 
   final List<Map<String, String>> _questions = [
     {
-      "question": "How many planets are in our solar system? Ans8",
-      "answer": "Eight",
+      "question":
+          "A 32 years old man Rohan , who is an engineer is in love with a 28 years old girl named Sarah. One day he got to know that a 34 years old guy named Rahul who is a doctor is also in love with Sarah . The engineer had to go on a long trip that would last for a week. Before he left he gave Sarah 94 apples. Why? ",
+      "answer": "an apple a day keeps the doctor away",
       "stat": "F",
     },
     {
-      "question": "How many elements are there in the periodic table? Ans1",
-      "answer": "One",
+      "question":
+          "An old man shoots his wife . Then he held her under the water for 5 minutes. Finally, he hangs her . But 10 minutes later they both go on a dinner date together. What is the old man's profession ?",
+      "answer": "photographer",
       "stat": "F",
     },
     {
-      "question": "How many years did the Hundred Years' War last? Ans15",
-      "answer": "fifteen",
+      "question": '''Pink houses are made up of pink bricks. 
+Blue houses are made up of blue bricks.
+Yellow houses are made up of yellow bricks.
+Brown houses are made up of brown bricks.
+Green houses are made up of ______
+''',
+      "answer": "glass",
       "stat": "F",
     },
     {
-      "question": "How many provinces are there in Canada? Ans10",
-      "answer": "Ten",
+      "question":
+          "Which three letters can frighten both  patient and a criminal?",
+      "answer": "icu",
       "stat": "F",
     },
     {
-      "question": "How many continents are there in the world? Ans7",
-      "answer": "Seven",
+      "question":
+          "Hey can you guess the next four letters ? If not you’ll lose  H C Y G T F L _ _ _ _ ",
+      "answer": "inyl",
       "stat": "F",
     },
     {
-      "question": "How many sides does a hexagon have? Ans6",
-      "answer": "Six",
-      "stat": "F",
-    },
-    {
-      "question": "How many days are there in a week? Ans7",
-      "answer": "Seven",
-      "stat": "F",
-    },
-    {
-      "question": "How many states are there in Australia? Ans6",
-      "answer": "Six",
-      "stat": "F",
-    },
-    {
-      "question": "How many oxygen atoms are there in a water molecule? Ans1",
-      "answer": "One",
-      "stat": "F",
-    },
-    {
-      "question": "How many books are there in the Harry Potter series? Ans7",
-      "answer": "Seven",
+      "question": "What letter comes next? S R G M P D N _",
+      "answer": "s",
       "stat": "F",
     },
   ];

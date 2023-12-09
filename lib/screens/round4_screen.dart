@@ -66,19 +66,38 @@ class _Round4State extends State<Round4> {
   }
 
   List<String> questions = [
-    ' What is a conditional ditional statement in Python is used to make nal ditional statement in Python is used to make decisionsnal ditional statement in Pythonnal ditional statement in P isnal ditional statement in P usednal ditional statement in P tonal ditional statement in P makenal ditional statement in P  innalnal ditional statement in P ditionalnal ditional statement in P statementnal ditional statement in P innal ditional statement in P Pythonnal ditional statement in P isnal ditional statement in P used to make  your conditional statement in Python? ans 1 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 2 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 3 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 4 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 5',
+    '''Go to this location and scan the QR
+
+   Kassod tree : 
+"Rev up your search where gears grind and engines roar, where the heart of vehicular craft is explored. Seek the treasure where horsepower meets expertise, in a place where cars find their mechanical release."
+ ''',
+    '''Go to this location and scan the QR
+
+Polyalthia longifolia: 
+"Where engines hum and gears engage, seek the treasure in our college's mechanical stage. In a haven for machines, find the prize within, a hidden secret waits in the heart of the garage spin."
+''',
+    '''Go to this location and scan the QR
+
+Blue Gulmohar: 
+￼"Where knowledge meets opportunity, your quest takes flight. Seek the gateway to careers, where resumes take their light."
+'''
+        '''Go to this location and scan the QR
+Rain tree : 
+￼"In the heart of learning and applause, seek the next clue near where knowledge takes center stage."
+
+'''
+        '''Go to this location and scan the QR
+Casuarina: 
+"Where goals are scored and cheers resound, near the green field where victories are found."
+'''
   ];
 
   List<String> answers = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
+    'Automobile workshop',
+    'Mechanical garage',
+    'Training and placement Department',
+    'SA block and auditorium ',
+    'Football ground.',
   ];
 
   void _openBottomSheet(BuildContext context, int index, int seconds) {
@@ -112,37 +131,37 @@ class _Round4State extends State<Round4> {
     //
     void checkAnswer(String ansByUser, int currenRandomQuestionIndex,
         BuildContext context) async {
-      if (ansByUser.toLowerCase().replaceAll(' ', '') ==
-          answers[currenRandomQuestionIndex]
-              .toLowerCase()
-              .replaceAll(' ', '')) {
-        print(ansByUser);
-        print(currenRandomQuestionIndex);
-        print('Correct answer ');
+      // if (ansByUser.toLowerCase().replaceAll(' ', '') ==
+      //     answers[currenRandomQuestionIndex]
+      //         .toLowerCase()
+      //         .replaceAll(' ', '')) {
+      //   print(ansByUser);
+      //   print(currenRandomQuestionIndex);
+      //   print('Correct answer ');
 
-        var toastWidget = toast(true);
-        fToast.showToast(
-          child: toastWidget,
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: Duration(seconds: 1),
-        );
+      //   var toastWidget = toast(true);
+      //   fToast.showToast(
+      //     child: toastWidget,
+      //     gravity: ToastGravity.BOTTOM,
+      //     toastDuration: Duration(seconds: 1),
+      //   );
 
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) =>
-                QrScannerPageFor1(answers[currenRandomQuestionIndex], id, 2),
-          ),
-        );
-      } else {
-        var toastWidget = toast(false);
-        fToast.showToast(
-          child: toastWidget,
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: Duration(seconds: 1),
-        );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) =>
+              QrScannerPageFor1(answers[currenRandomQuestionIndex], id, 2),
+        ),
+      );
+      // } else {
+      //   var toastWidget = toast(false);
+      //   fToast.showToast(
+      //     child: toastWidget,
+      //     gravity: ToastGravity.BOTTOM,
+      //     toastDuration: Duration(seconds: 1),
+      //   );
 
-        print('Wrong answer!');
-      }
+      //   print('Wrong answer!');
+      // }
     }
 
     return MaterialApp(
@@ -209,17 +228,17 @@ class _Round4State extends State<Round4> {
                   ),
                 ),
                 SizedBox(height: 30),
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: TextField(
-                      controller: _textController,
-                      decoration: InputDecoration(
-                        labelText: 'Enter your answer',
-                      ),
-                    ),
-                  ),
-                ),
+                // Center(
+                //   child: Padding(
+                //     padding: const EdgeInsets.all(16.0),
+                //     child: TextField(
+                //       controller: _textController,
+                //       decoration: InputDecoration(
+                //         labelText: 'Enter your answer',
+                //       ),
+                //     ),
+                //   ),
+                // ),
                 Container(
                   // height: 60,
                   margin: EdgeInsets.all(10),

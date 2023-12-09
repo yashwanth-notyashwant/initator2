@@ -66,19 +66,19 @@ class _Round3State extends State<Round3> {
   }
 
   List<String> questions = [
-    ' What is a conditional ditional statement in Python is used to make nal ditional statement in Python is used to make decisionsnal ditional statement in Pythonnal ditional statement in P isnal ditional statement in P usednal ditional statement in P tonal ditional statement in P makenal ditional statement in P  innalnal ditional statement in P ditionalnal ditional statement in P statementnal ditional statement in P innal ditional statement in P Pythonnal ditional statement in P isnal ditional statement in P used to make  your conditional statement in Python? ans 1 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 2 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 3 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 4 ',
-    'What is a conditional ditional statement in Python is used to make decisions in your conditional statement in Python? ans 5',
+    'To unveil the next treasure, seek the realm where algorithms dance and codes weave; where circuits hum with the melody of innovation. Your quest leads to the heart of our academic hub, where bytes and dreams collide. ',
+    'Follow the path where blueprints come to life, where structures soar and foundations thrive, seek the next hint where engineers strive.',
+    'Seek the hidden knowledge where waves converge, where signals dance through the air. Find the place where bytes whisper and frequencies embrace, unlocking the gateway to the secrets of connectivity.',
+    'Seek the hidden trove where cogs dance in unison, echoing the precision of nature\'s clock, where wisdom whispers through metallic veins beneath the green canopy of academia.',
+    'Seek the hidden prize where echoes of laughter and splashes fill the air, a place where liquid joy mirrors the sky\'s hue',
   ];
 
   List<String> answers = [
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
+    'cse',
+    'civil',
+    'ece',
+    'mechanical',
+    'swimming pool',
   ];
 
   void _openBottomSheet(BuildContext context, int index, int seconds) {
