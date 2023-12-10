@@ -6,12 +6,11 @@ import 'package:initator/models/user.dart';
 import 'package:initator/screens/auth_page.dart';
 import 'package:initator/screens/final_screen.dart';
 
-import 'package:pod_player/pod_player.dart';
-
 import 'package:initator/widgets/timer_for_round1type.dart';
 
 import 'package:loading_btn/loading_btn.dart';
 import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 // ignore: must_be_immutable
 class Round8 extends StatefulWidget {
@@ -25,9 +24,12 @@ class Round8 extends StatefulWidget {
 }
 
 class _Round8State extends State<Round8> {
-  late final PodPlayerController controller;
+  late YoutubePlayerController _cont;
+
   final videoTextFieldCtr = TextEditingController();
   final TextEditingController _textController1 = TextEditingController();
+  final TextEditingController _textController2 = TextEditingController();
+  final TextEditingController _textController3 = TextEditingController();
 
   int _currentIndex = 0;
   bool isSubmitted = false;
@@ -56,20 +58,25 @@ class _Round8State extends State<Round8> {
   @override
   void dispose() {
     _textController1.dispose();
-    controller.dispose();
 
     super.dispose();
   }
 
   late FToast fToast;
 
+  final String url = "https://www.youtube.com/watch?v=YMx8Bbev6T4";
+
   @override
   void initState() {
-    controller = PodPlayerController(
-      playVideoFrom: PlayVideoFrom.network(
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4',
-      ),
-    )..initialise();
+    final videoId = YoutubePlayer.convertUrlToId(url);
+
+    _cont = YoutubePlayerController(
+      initialVideoId: videoId!,
+      flags: const YoutubePlayerFlags(controlsVisibleAtStart: true),
+    );
+
+    //
+
     super.initState();
     fToast = FToast();
     fToast.init(context);
@@ -89,14 +96,33 @@ class _Round8State extends State<Round8> {
 
   List<Map<String, String>> _questions = [
     {
-      "question": "This is a Round 8 quesiton , Ans 7 ",
-      "answer": "seven",
+      "question": "What colour is the shirt of the person at the reception? ",
+      "answer": "brown",
+      "stat": "F",
+    },
+    {
+      "question": "How many pots are kept on the electric stove in the video? ",
+      "answer": "6",
+      "stat": "F",
+    },
+    {
+      "question": "What is the colour of the shampoo bottle?",
+      "answer": "yellow",
       "stat": "F",
     },
   ];
 
   @override
   Widget build(BuildContext context) {
+    void _showNextQuestion() {
+      if (_currentIndex == _questions.length - 1) {
+        return;
+      }
+      setState(() {
+        _currentIndex = (_currentIndex + 1) % _questions.length;
+      });
+    }
+
     void checkAnswer(
         String ansByUser, int _currentIndex, BuildContext context) async {
       if (ansByUser.toLowerCase().replaceAll(' ', '') ==
@@ -115,7 +141,7 @@ class _Round8State extends State<Round8> {
           print("did uit ");
           print(_questions[_currentIndex]['stat']);
         });
-        // _showNextQuestion();
+        _showNextQuestion();
       } else {
         var toastWidget = toast(false);
         fToast.showToast(
@@ -130,6 +156,8 @@ class _Round8State extends State<Round8> {
 
     List CpntrollerList = [
       _textController1,
+      _textController2,
+      _textController3,
     ];
 
     Future<bool> pointAdder(String id, int points) async {
@@ -223,20 +251,16 @@ class _Round8State extends State<Round8> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      PodVideoPlayer(
-                        controller: controller,
-                        podProgressBarConfig: const PodProgressBarConfig(
-                          padding: kIsWeb
-                              ? EdgeInsets.zero
-                              : EdgeInsets.only(
-                                  bottom: 20,
-                                  left: 20,
-                                  right: 20,
-                                ),
-                          playingBarColor: Colors.blue,
-                          circleHandlerColor: Colors.blue,
-                          backgroundColor: Colors.blueGrey,
-                        ),
+                      YoutubePlayer(
+                        controller: _cont,
+                        showVideoProgressIndicator: true,
+                        bottomActions: [
+                          CurrentPosition(),
+                          ProgressBar(
+                            isExpanded: true,
+                          ),
+                          const PlaybackSpeedButton(),
+                        ],
                       ),
                       Container(
                         margin: EdgeInsets.only(left: 20, top: 20),

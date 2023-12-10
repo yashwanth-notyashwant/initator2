@@ -30,27 +30,27 @@ class _Round2State extends State<Round2> {
 
   final List<Map<String, String>> _questions = [
     {
-      "question": "lib/dev_assets/q1.png",
+      "question": "lib/dev_assets/q1.jpg",
       "answer": "misunderstood",
       "stat": "F",
     },
     {
-      "question": "lib/dev_assets/q2.png",
+      "question": "lib/dev_assets/q2.jpg",
       "answer": "i ate some pie",
       "stat": "F",
     },
     {
-      "question": "lib/dev_assets/q3.png",
+      "question": "lib/dev_assets/q3.jpg",
       "answer": "scrambled eggs",
       "stat": "F",
     },
     {
-      "question": "lib/dev_assets/q4.png",
+      "question": "lib/dev_assets/q4.jpg",
       "answer": "once upon a time",
       "stat": "F",
     },
     {
-      "question": "lib/dev_assets/q5.png",
+      "question": "lib/dev_assets/q5.jpg",
       "answer": "that is too far from the point",
       "stat": "F",
     },

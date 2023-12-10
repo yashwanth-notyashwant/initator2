@@ -78,8 +78,16 @@ class _Round6State extends State<Round6> {
 
   List<Map<String, String>> _questions = [
     {
-      "question": "This is a Round 6 quesiton , Ans 6 ",
-      "answer": "six",
+      "question":
+          '''1st alphabet: I am situation at the first position above tank . 
+2nd : I am situated between
+H and T , dated 5/7/2022
+3rd: I am at the first place above wait is over . 
+4th : who won the dino run , collect the 2nd letter. 
+5th: who won call of duty, collect 1st letter.
+6th: I am behind OHI dated 5/7/2022
+''',
+      "answer": "shaper",
       "stat": "F",
     },
   ];
@@ -186,198 +194,195 @@ class _Round6State extends State<Round6> {
                 title: Text(''),
               ),
         body: !isSubmitted
-              ? SingleChildScrollView(
-                  child: Container(
-                    width: wi,
-                    color: Colors.white,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(left: 20, top: 20),
-                          child: Text(
-                            'Question no:${_currentIndex + 1}',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        _questions[_currentIndex]['stat'] == 'T'
-                            ? Container(
-                                // height: 60,
-                                margin: EdgeInsets.only(top: 30),
-                                decoration: BoxDecoration(
-                                  color:
-                                      const Color.fromARGB(255, 182, 222, 255),
-                                  // borderRadius: BorderRadius.circular(20),
-                                ),
-                                width: MediaQuery.of(context).size.width,
-                                padding: EdgeInsets.only(left: 10, right: 10),
-
-                                child: const Text(
-                                  'Answer Correct Please Submit this',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w300,
-                                      color: Colors.black),
-                                ), //add some styles
-                              )
-                            : Container(
-                                margin: EdgeInsets.only(
-                                    left: 20, right: 20, bottom: 10),
-                                child: Text(
-                                  _questions[_currentIndex]['question'] ?? '',
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                              ),
-                        SizedBox(height: 10),
-                        if (_questions[_currentIndex]['stat'] == 'F')
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: TextField(
-                                controller: CpntrollerList[_currentIndex],
-                                decoration: InputDecoration(
-                                  labelText: 'Enter your answer',
-                                ),
-                              ),
-                            ),
-                          ),
-                        if (_questions[_currentIndex]['stat'] == 'F')
-                          Container(
-                            height: 60,
-                            margin: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 182, 222, 255),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(left: 10, right: 10),
-                            child: TextButton(
-                              onPressed: () {
-                                FocusScope.of(context).unfocus();
-                                checkAnswer(CpntrollerList[_currentIndex].text,
-                                    _currentIndex, context);
-                              },
-                              child: const Text(
-                                'Check',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black),
-                              ), //add some styles
-                            ),
-                          ),
-                        if (_currentIndex == _questions.length - 1)
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: MediaQuery.of(context).size.width * 0.04),
-                            child: LoadingBtn(
-                              height: 60,
-                              borderRadius: 20,
-                              animate: true,
-                              color: const Color.fromARGB(255, 182, 222, 255),
-                              width: MediaQuery.of(context).size.width * 0.92,
-                              loader: Container(
-                                padding: const EdgeInsets.all(10),
-                                width: 40,
-                                height: 40,
-                                child: const CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.white),
-                                ),
-                              ),
-                              onTap:
-                                  ((startLoading, stopLoading, btnState) async {
-                                Fluttertoast.cancel();
-                                print(_questions[_currentIndex]['question']
-                                    .toString());
-                                print(_questions[_currentIndex]['question']
-                                    .toString());
-                                print(_questions[_currentIndex]['stat']
-                                    .toString());
-                                print(_questions[_currentIndex]['answer']
-                                    .toString());
-                                if (_questions[_currentIndex]['stat'] == 'F') {
-                                  var toastWidget = toast(false);
-                                  fToast.showToast(
-                                    child: toastWidget,
-                                    gravity: ToastGravity.BOTTOM,
-                                    toastDuration: Duration(seconds: 1),
-                                  );
-
-                                  return;
-                                }
-                                if (btnState == ButtonState.idle) {
-                                  startLoading();
-
-                                  var ifSubmitted =
-                                      await pointAdder(widget.id, 0);
-
-                                  if (ifSubmitted == true) {
-                                    setState(() {
-                                      isSubmitted = true;
-                                    });
-                                    Future.delayed(Duration(seconds: 3), () {
-                                      Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Round7(widget.id)),
-                                      );
-
-                                      // goto next-round
-                                    });
-                                  }
-                                  if (isSubmitted == false) {
-                                    stopLoading();
-                                  }
-
-                                  stopLoading();
-                                }
-                              }),
-                              child: const Text(
-                                'Submit All',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w300,
-                                    color: Colors.black),
-                              ), //add some styles
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                )
-              : Center(
+            ? SingleChildScrollView(
+                child: Container(
+                  width: wi,
+                  color: Colors.white,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: MediaQuery.of(context).size.width - 50,
-                        width: MediaQuery.of(context).size.width - 50,
-                        child: Image.asset('lib/dev_assets/greenTickMark.png'),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.only(
-                            left: 20, right: 20, bottom: 10, top: 30),
-                        child: const Text(
-                          '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically''',
+                        margin: EdgeInsets.only(left: 20, top: 20),
+                        child: Text(
+                          'Question no:${_currentIndex + 1}',
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w300),
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
+                      _questions[_currentIndex]['stat'] == 'T'
+                          ? Container(
+                              // height: 60,
+                              margin: EdgeInsets.only(top: 30),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 182, 222, 255),
+                                // borderRadius: BorderRadius.circular(20),
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(left: 10, right: 10),
+
+                              child: const Text(
+                                'Answer Correct Please Submit this',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ), //add some styles
+                            )
+                          : Container(
+                              margin: EdgeInsets.only(
+                                  left: 20, right: 20, bottom: 10),
+                              child: Text(
+                                _questions[_currentIndex]['question'] ?? '',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.w300),
+                              ),
+                            ),
+                      SizedBox(height: 10),
+                      if (_questions[_currentIndex]['stat'] == 'F')
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: CpntrollerList[_currentIndex],
+                              decoration: InputDecoration(
+                                labelText: 'Enter your answer',
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (_questions[_currentIndex]['stat'] == 'F')
+                        Container(
+                          height: 60,
+                          margin: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: TextButton(
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              checkAnswer(CpntrollerList[_currentIndex].text,
+                                  _currentIndex, context);
+                            },
+                            child: const Text(
+                              'Check',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                            ), //add some styles
+                          ),
+                        ),
+                      if (_currentIndex == _questions.length - 1)
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.04),
+                          child: LoadingBtn(
+                            height: 60,
+                            borderRadius: 20,
+                            animate: true,
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            width: MediaQuery.of(context).size.width * 0.92,
+                            loader: Container(
+                              padding: const EdgeInsets.all(10),
+                              width: 40,
+                              height: 40,
+                              child: const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            ),
+                            onTap:
+                                ((startLoading, stopLoading, btnState) async {
+                              Fluttertoast.cancel();
+                              print(_questions[_currentIndex]['question']
+                                  .toString());
+                              print(_questions[_currentIndex]['question']
+                                  .toString());
+                              print(
+                                  _questions[_currentIndex]['stat'].toString());
+                              print(_questions[_currentIndex]['answer']
+                                  .toString());
+                              if (_questions[_currentIndex]['stat'] == 'F') {
+                                var toastWidget = toast(false);
+                                fToast.showToast(
+                                  child: toastWidget,
+                                  gravity: ToastGravity.BOTTOM,
+                                  toastDuration: Duration(seconds: 1),
+                                );
+
+                                return;
+                              }
+                              if (btnState == ButtonState.idle) {
+                                startLoading();
+
+                                var ifSubmitted =
+                                    await pointAdder(widget.id, 0);
+
+                                if (ifSubmitted == true) {
+                                  setState(() {
+                                    isSubmitted = true;
+                                  });
+                                  Future.delayed(Duration(seconds: 3), () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Round7(widget.id)),
+                                    );
+
+                                    // goto next-round
+                                  });
+                                }
+                                if (isSubmitted == false) {
+                                  stopLoading();
+                                }
+
+                                stopLoading();
+                              }
+                            }),
+                            child: const Text(
+                              'Submit All',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                            ), //add some styles
+                          ),
+                        ),
                     ],
                   ),
                 ),
-         
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.width - 50,
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: Image.asset('lib/dev_assets/greenTickMark.png'),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 10, top: 30),
+                      child: const Text(
+                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically''',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
         floatingActionButton: !isSubmitted
             ? FloatingActionButton.extended(
                 icon: const Icon(Icons.warning),

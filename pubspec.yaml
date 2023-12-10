@@ -45,6 +45,8 @@ dependencies:
   flutter_spinkit: ^5.2.0
   loading_btn: ^1.0.3
   pod_player: ^0.2.1
+  youtube_player_flutter: ^8.1.2
+
   # qr_flutter: ^4.1.0
   # mobile_scanner: ^3.5.4
 
@@ -73,11 +75,11 @@ flutter:
   assets:
     - lib/dev_assets/cicada_image.png
     - lib/dev_assets/greenTickMark.png
-    - lib/dev_assets/q1.png
-    - lib/dev_assets/q2.png
-    - lib/dev_assets/q3.png
-    - lib/dev_assets/q4.png
-    - lib/dev_assets/q5.png
+    - lib/dev_assets/q1.jpg
+    - lib/dev_assets/q2.jpg
+    - lib/dev_assets/q3.jpg
+    - lib/dev_assets/q4.jpg
+    - lib/dev_assets/q5.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

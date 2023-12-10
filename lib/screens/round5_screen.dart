@@ -27,8 +27,8 @@ class _Round5State extends State<Round5> {
   final List<Map<String, String>> _questions = [
     {
       "question":
-          "This is a morse coede round for which the answer will be 1111",
-      "answer": "1111",
+          "Decode the hidden message: .... .- ...- . ...- .-. .- - .. -. .- - .... . ... -.-. .-. .- -.--",
+      "answer": "HAVE A GREAT DAY",
       "stat": "F",
     },
   ];
