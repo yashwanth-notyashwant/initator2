@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/screens/round1_screen.dart';
-import 'package:initator/screens/round4_screen.dart';
+
 import 'package:initator/screens/round5_screen.dart';
 import 'package:loading_btn/loading_btn.dart';
 
@@ -221,7 +221,7 @@ class _QrScannerPageFor1State extends State<QrScannerPageFor1> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Round4(widget.id)),
+                                              Round5(widget.id)),
                                     );
                                   } else if (widget.roundCount == 2) {
                                     Navigator.pushReplacement(

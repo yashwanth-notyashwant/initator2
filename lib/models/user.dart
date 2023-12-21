@@ -167,6 +167,45 @@ class Users with ChangeNotifier {
       return null;
     }
   }
+
+  Future<String?> fetchCodeFromFirestore() async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('code') // Change to 'code' collection
+          .doc('code') // Change to 'code' document
+          .get();
+
+      if (snapshot.exists) {
+        final codeData = snapshot.data() as Map<String, dynamic>;
+        final code = codeData[
+            'code']; // Replace with the actual field name where your code is stored
+        print(code);
+        print('gonzalo chaddi');
+        return code;
+      } else {
+        Fluttertoast.showToast(
+            msg: "Code not found",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
+            textColor: Color.fromARGB(255, 0, 0, 0),
+            fontSize: 16.0);
+        return null;
+      }
+    } catch (error) {
+      Fluttertoast.showToast(
+          msg: "${error}",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+          textColor: Color.fromARGB(255, 0, 0, 0),
+          fontSize: 16.0);
+      print(error);
+      return null;
+    }
+  }
 }
 
 

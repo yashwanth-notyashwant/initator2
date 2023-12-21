@@ -1,29 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:initator/screens/auth_page.dart';
-import 'package:initator/screens/round8_screen.dart';
+import 'package:initator/models/user.dart';
 
 import 'package:initator/widgets/timer_for_round1type.dart';
-
+import 'package:initator/widgets/timer_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:loading_btn/loading_btn.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: must_be_immutable
 class Round7 extends StatefulWidget {
   late String id;
-
-  Round7(
-    this.id,
-  );
+  Round7(this.id);
   @override
   State<Round7> createState() => _Round7State();
 }
 
 class _Round7State extends State<Round7> {
+  late DateTime startTime;
   final TextEditingController _textController1 = TextEditingController();
+  final TextEditingController _textController2 = TextEditingController();
+  final TextEditingController _textController3 = TextEditingController();
+  final TextEditingController _textController4 = TextEditingController();
+  final TextEditingController _textController5 = TextEditingController();
 
   int _currentIndex = 0;
   bool isSubmitted = false;
+
+  final List<Map<String, String>> _questions = [
+    {
+      "question": "lib/dev_assets/E.png",
+      "answer": "E",
+      "stat": "F",
+    },
+  ];
 
   Widget toast(bool val) {
     return Container(
@@ -49,6 +60,10 @@ class _Round7State extends State<Round7> {
   @override
   void dispose() {
     _textController1.dispose();
+    _textController2.dispose();
+    _textController3.dispose();
+    _textController4.dispose();
+    _textController5.dispose();
 
     super.dispose();
   }
@@ -57,9 +72,63 @@ class _Round7State extends State<Round7> {
 
   @override
   void initState() {
+    startTime = DateTime.now();
     super.initState();
     fToast = FToast();
     fToast.init(context);
+    _questions.shuffle(); // Shuffle the list of questions at the beginning
+  }
+
+  int calculateElapsedTime() {
+    Duration elapsed = DateTime.now().difference(startTime);
+    return elapsed.inSeconds;
+  }
+
+  void checkAnswer(
+      String ansByUser, int _currentIndex, BuildContext context) async {
+    if (ansByUser.toLowerCase().replaceAll(' ', '') ==
+        _questions[_currentIndex]['answer']
+            ?.toLowerCase()
+            .replaceAll(' ', '')) {
+      var toastWidget = toast(true);
+      fToast.showToast(
+        child: toastWidget,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 1),
+      );
+
+      setState(() {
+        _questions[_currentIndex]['stat'] = 'T';
+      });
+      _showNextQuestion();
+    } else {
+      var toastWidget = toast(false);
+      fToast.showToast(
+        child: toastWidget,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 1),
+      );
+
+      print('Wrong answer!');
+    }
+  }
+
+  void _showNextQuestion() {
+    if (_currentIndex == _questions.length - 1) {
+      return;
+    }
+    setState(() {
+      _currentIndex = (_currentIndex + 1) % _questions.length;
+    });
+  }
+
+  void _showPreviousQuestion() {
+    if (_currentIndex == 0) {
+      return;
+    }
+    setState(() {
+      _currentIndex = (_currentIndex - 1) % _questions.length;
+    });
   }
 
   int countItemsWithTStat(List<Map<String, String>> list) {
@@ -74,58 +143,23 @@ class _Round7State extends State<Round7> {
     return count;
   }
 
-  List<Map<String, String>> _questions = [
-    {
-      "question": "This is a Round 7 quesiton (web site some question), Ans 7 ",
-      "answer": "seven",
-      "stat": "F",
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
-    void checkAnswer(
-        String ansByUser, int _currentIndex, BuildContext context) async {
-      if (ansByUser.toLowerCase().replaceAll(' ', '') ==
-          _questions[_currentIndex]['answer']
-              ?.toLowerCase()
-              .replaceAll(' ', '')) {
-        var toastWidget = toast(true);
-        fToast.showToast(
-          child: toastWidget,
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: Duration(seconds: 1),
-        );
-
-        setState(() {
-          _questions[_currentIndex]['stat'] = 'T';
-          print("did uit ");
-          print(_questions[_currentIndex]['stat']);
-        });
-        // _showNextQuestion();
-      } else {
-        var toastWidget = toast(false);
-        fToast.showToast(
-          child: toastWidget,
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: Duration(seconds: 1),
-        );
-
-        print('Wrong answer!');
-      }
-    }
-
     List CpntrollerList = [
       _textController1,
+      _textController2,
+      _textController3,
+      _textController4,
+      _textController5,
     ];
 
-    Future<bool> pointAdder(String id, int points) async {
+    Future<bool> pointAdder(String id, double points) async {
       try {
-        // mark the list [0,0,0,0,0,0,0,0] to -- > [1,0,0,0,0,0,0,0]
         // Get a reference to the user's document in Firestore
         DocumentReference userRef =
             FirebaseFirestore.instance.collection('users').doc(id);
 
+        // Update the milestone field by incrementing the provided points
         await userRef.update({
           'milestone': [
             1,
@@ -159,7 +193,7 @@ class _Round7State extends State<Round7> {
             children: [
               Container(
                 width: MediaQuery.of(context).size.width,
-                child: TimerForNoHintQuestion(seconds, 900),
+                child: TimerForNoHintQuestion(seconds, 600),
               ),
             ],
           );
@@ -167,6 +201,7 @@ class _Round7State extends State<Round7> {
       );
     }
 
+    // var hi = MediaQuery.of(context).size.height;
     var wi = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
@@ -192,7 +227,7 @@ class _Round7State extends State<Round7> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        margin: EdgeInsets.only(left: 20, top: 20),
+                        margin: EdgeInsets.only(left: 20, top: 30),
                         child: Text(
                           'Question no:${_currentIndex + 1}',
                           style: TextStyle(
@@ -204,7 +239,7 @@ class _Round7State extends State<Round7> {
                       _questions[_currentIndex]['stat'] == 'T'
                           ? Container(
                               // height: 60,
-                              margin: EdgeInsets.only(top: 30),
+                              margin: EdgeInsets.only(top: 30, bottom: 30),
                               decoration: BoxDecoration(
                                 color: const Color.fromARGB(255, 182, 222, 255),
                                 // borderRadius: BorderRadius.circular(20),
@@ -213,7 +248,7 @@ class _Round7State extends State<Round7> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please Submit this',
+                                'Answer Correct Please Submit all',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -221,13 +256,12 @@ class _Round7State extends State<Round7> {
                                     color: Colors.black),
                               ), //add some styles
                             )
-                          : Container(
-                              margin: EdgeInsets.only(
-                                  left: 20, right: 20, bottom: 10),
-                              child: Text(
-                                _questions[_currentIndex]['question'] ?? '',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.w300),
+                          : Center(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 10, top: 30),
+                                child: Image.asset(
+                                    _questions[_currentIndex]['question']!),
                               ),
                             ),
                       SizedBox(height: 10),
@@ -290,9 +324,6 @@ class _Round7State extends State<Round7> {
                             ),
                             onTap:
                                 ((startLoading, stopLoading, btnState) async {
-                              Fluttertoast.cancel();
-                              print(_questions[_currentIndex]['question']
-                                  .toString());
                               if (_questions[_currentIndex]['stat'] == 'F') {
                                 var toastWidget = toast(false);
                                 fToast.showToast(
@@ -307,7 +338,7 @@ class _Round7State extends State<Round7> {
                                 startLoading();
 
                                 var ifSubmitted =
-                                    await pointAdder(widget.id, 0);
+                                    await pointAdder(widget.id, 2);
 
                                 if (ifSubmitted == true) {
                                   setState(() {
@@ -318,10 +349,8 @@ class _Round7State extends State<Round7> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Round8(widget.id)),
+                                              Round7(widget.id)),
                                     );
-
-                                    // goto next-round
                                   });
                                 }
                                 if (isSubmitted == false) {
@@ -377,8 +406,8 @@ class _Round7State extends State<Round7> {
                 ),
                 elevation: 3.0,
                 onPressed: () {
-                  // int et = calculateElapsedTime();
-                  _openBottomSheet(context, 0, 10);
+                  int et = calculateElapsedTime();
+                  _openBottomSheet(context, 0, et);
                 },
               )
             : null,

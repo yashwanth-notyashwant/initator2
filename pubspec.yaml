@@ -80,7 +80,11 @@ flutter:
     - lib/dev_assets/q3.jpg
     - lib/dev_assets/q4.jpg
     - lib/dev_assets/q5.jpg
-
+    - lib/dev_assets/16.png
+    - lib/dev_assets/C.png
+    - lib/dev_assets/D.png
+    - lib/dev_assets/duck.png
+    - lib/dev_assets/E.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

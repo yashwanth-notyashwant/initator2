@@ -1,43 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:initator/screens/qr_scanner_screen.dart';
-import 'package:initator/widgets/timer_widget.dart';
+import 'package:initator/models/user.dart';
 
-import 'package:flutter/services.dart';
+import 'package:initator/widgets/timer_for_round1type.dart';
+import 'package:initator/widgets/timer_widget.dart';
+import 'package:provider/provider.dart';
+import 'package:loading_btn/loading_btn.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: must_be_immutable
 class Round4 extends StatefulWidget {
   late String id;
   Round4(this.id);
   @override
-  _Round4State createState() => _Round4State();
+  State<Round4> createState() => _Round4State();
 }
 
 class _Round4State extends State<Round4> {
-  late String id;
-  late int reqNum;
-  late int currenRandomQuestionIndex;
-
   late DateTime startTime;
+  final TextEditingController _textController1 = TextEditingController();
+  final TextEditingController _textController2 = TextEditingController();
+  final TextEditingController _textController3 = TextEditingController();
+  final TextEditingController _textController4 = TextEditingController();
+  final TextEditingController _textController5 = TextEditingController();
 
-  late FToast fToast;
+  int _currentIndex = 0;
+  bool isSubmitted = false;
 
-  @override
-  void initState() {
-    fToast = FToast();
-    fToast.init(context);
-    id = widget.id;
-    reqNum = int.parse(id);
-    reqNum = reqNum % 10;
-    if (reqNum >= 5) {
-      reqNum = reqNum - 5;
-    }
-
-    currenRandomQuestionIndex = reqNum;
-    startTime = DateTime.now();
-    super.initState();
-    // here set the time of the start time of the round for this question
-  }
+  final List<Map<String, String>> _questions = [
+    {
+      "question": "lib/dev_assets/C.png",
+      "answer": "C",
+      "stat": "F",
+    },
+  ];
 
   Widget toast(bool val) {
     return Container(
@@ -60,222 +57,360 @@ class _Round4State extends State<Round4> {
     );
   }
 
+  @override
+  void dispose() {
+    _textController1.dispose();
+    _textController2.dispose();
+    _textController3.dispose();
+    _textController4.dispose();
+    _textController5.dispose();
+
+    super.dispose();
+  }
+
+  late FToast fToast;
+
+  @override
+  void initState() {
+    startTime = DateTime.now();
+    super.initState();
+    fToast = FToast();
+    fToast.init(context);
+    _questions.shuffle(); // Shuffle the list of questions at the beginning
+  }
+
   int calculateElapsedTime() {
     Duration elapsed = DateTime.now().difference(startTime);
     return elapsed.inSeconds;
   }
 
-  List<String> questions = [
-    '''Go to this location and scan the QR
+  void checkAnswer(
+      String ansByUser, int _currentIndex, BuildContext context) async {
+    if (ansByUser.toLowerCase().replaceAll(' ', '') ==
+        _questions[_currentIndex]['answer']
+            ?.toLowerCase()
+            .replaceAll(' ', '')) {
+      var toastWidget = toast(true);
+      fToast.showToast(
+        child: toastWidget,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 1),
+      );
 
-   Kassod tree : 
-"Rev up your search where gears grind and engines roar, where the heart of vehicular craft is explored. Seek the treasure where horsepower meets expertise, in a place where cars find their mechanical release."
- ''',
-    '''Go to this location and scan the QR
+      setState(() {
+        _questions[_currentIndex]['stat'] = 'T';
+      });
+      _showNextQuestion();
+    } else {
+      var toastWidget = toast(false);
+      fToast.showToast(
+        child: toastWidget,
+        gravity: ToastGravity.BOTTOM,
+        toastDuration: Duration(seconds: 1),
+      );
 
-Polyalthia longifolia: 
-"Where engines hum and gears engage, seek the treasure in our college's mechanical stage. In a haven for machines, find the prize within, a hidden secret waits in the heart of the garage spin."
-''',
-    '''Go to this location and scan the QR
-
-Blue Gulmohar: 
-￼"Where knowledge meets opportunity, your quest takes flight. Seek the gateway to careers, where resumes take their light."
-'''
-        '''Go to this location and scan the QR
-Rain tree : 
-￼"In the heart of learning and applause, seek the next clue near where knowledge takes center stage."
-
-'''
-        '''Go to this location and scan the QR
-Casuarina: 
-"Where goals are scored and cheers resound, near the green field where victories are found."
-'''
-  ];
-
-  List<String> answers = [
-    'Automobile workshop',
-    'Mechanical garage',
-    'Training and placement Department',
-    'SA block and auditorium ',
-    'Football ground.',
-  ];
-
-  void _openBottomSheet(BuildContext context, int index, int seconds) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: CountdownTimer(seconds, answers[index]),
-            ),
-          ],
-        );
-      },
-    );
+      print('Wrong answer!');
+    }
   }
 
-  TextEditingController _textController = TextEditingController();
+  void _showNextQuestion() {
+    if (_currentIndex == _questions.length - 1) {
+      return;
+    }
+    setState(() {
+      _currentIndex = (_currentIndex + 1) % _questions.length;
+    });
+  }
 
-  @override
-  void dispose() {
-    _textController.dispose();
-    super.dispose();
+  void _showPreviousQuestion() {
+    if (_currentIndex == 0) {
+      return;
+    }
+    setState(() {
+      _currentIndex = (_currentIndex - 1) % _questions.length;
+    });
+  }
+
+  int countItemsWithTStat(List<Map<String, String>> list) {
+    int count = 0;
+
+    for (var item in list) {
+      if (item["stat"] == "T") {
+        count++;
+      }
+    }
+
+    return count;
   }
 
   @override
   Widget build(BuildContext context) {
-    //
-    void checkAnswer(String ansByUser, int currenRandomQuestionIndex,
-        BuildContext context) async {
-      // if (ansByUser.toLowerCase().replaceAll(' ', '') ==
-      //     answers[currenRandomQuestionIndex]
-      //         .toLowerCase()
-      //         .replaceAll(' ', '')) {
-      //   print(ansByUser);
-      //   print(currenRandomQuestionIndex);
-      //   print('Correct answer ');
+    List CpntrollerList = [
+      _textController1,
+      _textController2,
+      _textController3,
+      _textController4,
+      _textController5,
+    ];
 
-      //   var toastWidget = toast(true);
-      //   fToast.showToast(
-      //     child: toastWidget,
-      //     gravity: ToastGravity.BOTTOM,
-      //     toastDuration: Duration(seconds: 1),
-      //   );
+    Future<bool> pointAdder(String id, double points) async {
+      try {
+        // Get a reference to the user's document in Firestore
+        DocumentReference userRef =
+            FirebaseFirestore.instance.collection('users').doc(id);
 
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-              QrScannerPageFor1(answers[currenRandomQuestionIndex], id, 2),
-        ),
-      );
-      // } else {
-      //   var toastWidget = toast(false);
-      //   fToast.showToast(
-      //     child: toastWidget,
-      //     gravity: ToastGravity.BOTTOM,
-      //     toastDuration: Duration(seconds: 1),
-      //   );
+        // Update the milestone field by incrementing the provided points
+        await userRef.update({
+          'milestone': [
+            1,
+            1,
+            1,
+            1,
+            0,
+            0,
+            0,
+            0,
+          ]
+        });
 
-      //   print('Wrong answer!');
-      // }
+        print('Milestone updated successfully.');
+
+        return true;
+      } catch (error) {
+        print('Error updating milestone: $error');
+
+        return false;
+      }
     }
 
+    void _openBottomSheet(BuildContext context, int index, int seconds) {
+      showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                child: TimerForNoHintQuestion(seconds, 600),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    // var hi = MediaQuery.of(context).size.height;
+    var wi = MediaQuery.of(context).size.width;
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          title: Text(
-            'Round 4 ',
-            style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.w400,
-            ),
-          ),
-          actions: [
-            Container(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 182, 222, 255),
-                borderRadius: BorderRadius.circular(20),
+        appBar: !isSubmitted
+            ? AppBar(
+                title: Text(
+                  'Round 4 ',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              )
+            : AppBar(
+                title: Text(''),
               ),
-              margin: EdgeInsets.only(right: 20, top: 10),
-              child: TextButton(
-                onPressed: () {
-                  int elapsedTime = calculateElapsedTime();
-                  _openBottomSheet(
-                      context, currenRandomQuestionIndex, elapsedTime);
-                },
-                child: const Row(
-                  mainAxisSize: MainAxisSize.min, // Align items in a row
-                  children: [
-                    Text(
-                      " Hint",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16,
+        body: !isSubmitted
+            ? SingleChildScrollView(
+                child: Container(
+                  width: wi,
+                  color: Colors.white,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(left: 20, top: 30),
+                        child: Text(
+                          'Question no:${_currentIndex + 1}',
+                          style: TextStyle(
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
                       ),
+                      _questions[_currentIndex]['stat'] == 'T'
+                          ? Container(
+                              // height: 60,
+                              margin: EdgeInsets.only(top: 30, bottom: 30),
+                              decoration: BoxDecoration(
+                                color: const Color.fromARGB(255, 182, 222, 255),
+                                // borderRadius: BorderRadius.circular(20),
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              padding: EdgeInsets.only(left: 10, right: 10),
+
+                              child: const Text(
+                                'Answer Correct Please Submit all',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ), //add some styles
+                            )
+                          : Center(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 10, top: 30),
+                                child: Image.asset(
+                                    _questions[_currentIndex]['question']!),
+                              ),
+                            ),
+                      SizedBox(height: 10),
+                      if (_questions[_currentIndex]['stat'] == 'F')
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: CpntrollerList[_currentIndex],
+                              decoration: InputDecoration(
+                                labelText: 'Enter your answer',
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (_questions[_currentIndex]['stat'] == 'F')
+                        Container(
+                          height: 60,
+                          margin: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: TextButton(
+                            onPressed: () {
+                              FocusScope.of(context).unfocus();
+                              checkAnswer(CpntrollerList[_currentIndex].text,
+                                  _currentIndex, context);
+                            },
+                            child: const Text(
+                              'Check',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                            ), //add some styles
+                          ),
+                        ),
+                      if (_currentIndex == _questions.length - 1)
+                        Padding(
+                          padding: EdgeInsets.only(
+                              left: MediaQuery.of(context).size.width * 0.04),
+                          child: LoadingBtn(
+                            height: 60,
+                            borderRadius: 20,
+                            animate: true,
+                            color: const Color.fromARGB(255, 182, 222, 255),
+                            width: MediaQuery.of(context).size.width * 0.92,
+                            loader: Container(
+                              padding: const EdgeInsets.all(10),
+                              width: 40,
+                              height: 40,
+                              child: const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            ),
+                            onTap:
+                                ((startLoading, stopLoading, btnState) async {
+                              if (_questions[_currentIndex]['stat'] == 'F') {
+                                var toastWidget = toast(false);
+                                fToast.showToast(
+                                  child: toastWidget,
+                                  gravity: ToastGravity.BOTTOM,
+                                  toastDuration: Duration(seconds: 1),
+                                );
+
+                                return;
+                              }
+                              if (btnState == ButtonState.idle) {
+                                startLoading();
+
+                                var ifSubmitted =
+                                    await pointAdder(widget.id, 2);
+
+                                if (ifSubmitted == true) {
+                                  setState(() {
+                                    isSubmitted = true;
+                                  });
+                                  Future.delayed(Duration(seconds: 3), () {
+                                    Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Round4(widget.id)),
+                                    );
+                                  });
+                                }
+                                if (isSubmitted == false) {
+                                  stopLoading();
+                                }
+
+                                stopLoading();
+                              }
+                            }),
+                            child: const Text(
+                              'Submit All',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w300,
+                                  color: Colors.black),
+                            ), //add some styles
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              )
+            : Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.width - 50,
+                      width: MediaQuery.of(context).size.width - 50,
+                      child: Image.asset('lib/dev_assets/greenTickMark.png'),
                     ),
-                    Icon(
-                      Icons.lightbulb,
-                      color: Colors.black,
-                      size: 20,
+                    Container(
+                      margin: const EdgeInsets.only(
+                          left: 20, right: 20, bottom: 10, top: 30),
+                      child: const Text(
+                        '''You have submitted answers for this round Sucessfully and we have stored your results 🤞. Wait patiently, the next round will begin automatically''',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w300),
+                      ),
                     ),
                   ],
                 ),
               ),
-            ),
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 50,
+        floatingActionButton: !isSubmitted
+            ? FloatingActionButton.extended(
+                icon: const Icon(Icons.warning),
+                label: const Text('Warning'),
+                backgroundColor: Color.fromARGB(255, 182, 222, 255),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
                 ),
-                Container(
-                  margin: EdgeInsets.only(left: 7, right: 5),
-                  child: Text(
-                    questions[currenRandomQuestionIndex],
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w300),
-                  ),
-                ),
-                SizedBox(height: 30),
-                // Center(
-                //   child: Padding(
-                //     padding: const EdgeInsets.all(16.0),
-                //     child: TextField(
-                //       controller: _textController,
-                //       decoration: InputDecoration(
-                //         labelText: 'Enter your answer',
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                Container(
-                  // height: 60,
-                  margin: EdgeInsets.all(10),
-
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 182, 222, 255),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.only(bottom: 5, left: 10, right: 10),
-                  child: TextButton(
-                    onPressed: () async {
-                      FocusScope.of(context).unfocus();
-                      checkAnswer(_textController.text,
-                          currenRandomQuestionIndex, context);
-
-                      // go to the qr code scanning page
-                    },
-                    child: const Text(
-                      'Next',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
-                          color: Colors.black),
-                    ), //add some styles
-                  ),
-                ),
-                // QrImageView(
-                //   data: '1234567890',
-                //   version: QrVersions.auto,
-                //   size: 200.0,
-                // ),
-              ],
-            ),
-          ),
-        ),
+                elevation: 3.0,
+                onPressed: () {
+                  int et = calculateElapsedTime();
+                  _openBottomSheet(context, 0, et);
+                },
+              )
+            : null,
       ),
     );
   }

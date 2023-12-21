@@ -7,11 +7,12 @@ import 'package:initator/screens/instructions_page.dart';
 import 'package:initator/screens/round1_screen.dart';
 import 'package:initator/screens/round2_screen.dart';
 import 'package:initator/screens/round3_screen.dart';
-import 'package:initator/screens/round4_screen.dart';
+
 import 'package:initator/screens/round5_screen.dart';
 import 'package:initator/screens/round6_screen.dart';
 import 'package:initator/screens/round7_screen.dart';
 import 'package:initator/screens/round8_screen.dart';
+import 'package:initator/screens/waiting_screen.dart';
 import 'package:loading_btn/loading_btn.dart';
 import 'package:provider/provider.dart';
 
@@ -291,8 +292,8 @@ class _AuthPageState extends State<AuthPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => InstructionsScreen(
-                                          user.id.toString()),
+                                      builder: (context) =>
+                                          WaitingList(user.id.toString()),
                                     ),
                                   );
                                   return;
@@ -334,7 +335,7 @@ class _AuthPageState extends State<AuthPage> {
                                     Round1(user.id.toString()),
                                     Round2(user.id.toString()),
                                     Round3(user.id.toString()),
-                                    Round4(user.id.toString()),
+                                    Round5(user.id.toString()),
                                     Round5(user.id.toString()),
                                     Round6(user.id.toString()),
                                     Round7(user.id.toString()),

@@ -33,12 +33,6 @@ class _Round1State extends State<Round1> {
   final List<Map<String, String>> _questions = [
     {
       "question":
-          "A 32 years old man Rohan , who is an engineer is in love with a 28 years old girl named Sarah. One day he got to know that a 34 years old guy named Rahul who is a doctor is also in love with Sarah . The engineer had to go on a long trip that would last for a week. Before he left he gave Sarah 94 apples. Why? ",
-      "answer": "an apple a day keeps the doctor away",
-      "stat": "F",
-    },
-    {
-      "question":
           "An old man shoots his wife . Then he held her under the water for 5 minutes. Finally, he hangs her . But 10 minutes later they both go on a dinner date together. What is the old man's profession ?",
       "answer": "photographer",
       "stat": "F",
@@ -148,8 +142,8 @@ Green houses are made up of ______
         gravity: ToastGravity.BOTTOM,
         toastDuration: Duration(seconds: 1),
       );
-
       print('Wrong answer!');
+      return;
     }
   }
 
@@ -375,7 +369,7 @@ Green houses are made up of ______
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please go to 10th question to Submit all',
+                                'Answer Correct Please Submit all',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -407,30 +401,29 @@ Green houses are made up of ______
                         ),
                       if (_questions[_currentIndex]['stat'] == 'F')
                         Container(
-                          height: 60,
-                          margin: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                            color: const Color.fromARGB(255, 182, 222, 255),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: TextButton(
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              checkAnswer(CpntrollerList[_currentIndex].text,
-                                  _currentIndex, context);
-                            },
-                            child: const Text(
-                              'Check',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black),
-                            ), //add some styles
-                          ),
-                        ),
+                            height: 60,
+                            margin: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 182, 222, 255),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            width: MediaQuery.of(context).size.width,
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: TextButton(
+                              onPressed: () {
+                                FocusScope.of(context).unfocus();
+                                checkAnswer(CpntrollerList[_currentIndex].text,
+                                    _currentIndex, context);
+                              },
+                              child: const Text(
+                                'Check',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ), //add some styles
+                            )),
                       if (_currentIndex == _questions.length - 1)
                         Padding(
                           padding: EdgeInsets.only(
@@ -452,6 +445,9 @@ Green houses are made up of ______
                             ),
                             onTap:
                                 ((startLoading, stopLoading, btnState) async {
+                              FocusScope.of(context).unfocus();
+                              checkAnswer(CpntrollerList[_currentIndex].text,
+                                  _currentIndex, context);
                               Fluttertoast.cancel();
                               if (_questions[_currentIndex]['stat'] == 'F') {
                                 var toastWidget = toast(false);

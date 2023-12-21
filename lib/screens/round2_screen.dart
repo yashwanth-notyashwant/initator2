@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
+
 import 'package:initator/screens/round3_screen.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 import 'package:initator/widgets/timer_widget.dart';
@@ -51,7 +52,7 @@ class _Round2State extends State<Round2> {
     },
     {
       "question": "lib/dev_assets/q5.jpg",
-      "answer": "that is too far from the point",
+      "answer": "that is far from the point",
       "stat": "F",
     },
   ];
@@ -268,7 +269,7 @@ class _Round2State extends State<Round2> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please go to 5th question to Submit all',
+                                'Answer Correct Please Submit all',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -326,6 +327,7 @@ class _Round2State extends State<Round2> {
                       if (_currentIndex == _questions.length - 1)
                         Padding(
                           padding: EdgeInsets.only(
+                              bottom: 20.0,
                               left: MediaQuery.of(context).size.width * 0.04),
                           child: LoadingBtn(
                             height: 60,

@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:initator/screens/round1_screen.dart';
-import 'package:initator/screens/round3_screen.dart';
+ 
 import 'package:initator/screens/round2_screen.dart';
 import 'package:initator/screens/round5_screen.dart';
 import 'package:initator/screens/round6_screen.dart';
 import 'package:initator/screens/round8_screen.dart';
+import 'package:initator/screens/waiting_screen.dart';
 
 // ignore: must_be_immutable
 class InstructionsScreen extends StatefulWidget {
@@ -100,7 +101,7 @@ print(_geeks, geeks_, _GEEKS_)
                   await pointAdder(widget.id);
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                        // builder: (context) => Round2(widget.id)),
+                        // builder: (context) => WaitingList(widget.id))
                         builder: (context) => Round1(widget.id)),
                     // builder: (context) => QrScanRound(widget.id)),
                   );
