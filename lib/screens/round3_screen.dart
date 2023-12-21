@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
+import 'package:initator/screens/round4_screen.dart';
 
 import 'package:initator/widgets/timer_for_round1type.dart';
 import 'package:initator/widgets/timer_widget.dart';
@@ -189,7 +190,7 @@ class _Round3State extends State<Round3> {
         appBar: !isSubmitted
             ? AppBar(
                 title: Text(
-                  'Round 4 ',
+                  'Round 3',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w400,
@@ -229,7 +230,7 @@ class _Round3State extends State<Round3> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please go to 5th question to Submit all',
+                                'Answer Correct Please  Submit  ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -330,7 +331,7 @@ class _Round3State extends State<Round3> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Round3(widget.id)),
+                                              Round4(widget.id)),
                                     );
                                   });
                                 }

@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
+import 'package:initator/screens/round7_screen.dart';
 
 import 'package:initator/widgets/timer_for_round1type.dart';
 import 'package:initator/widgets/timer_widget.dart';
@@ -248,7 +249,7 @@ class _Round6State extends State<Round6> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please Submit all',
+                                'Answer Correct Please Submit   ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,
@@ -349,7 +350,7 @@ class _Round6State extends State<Round6> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Round6(widget.id)),
+                                              Round7(widget.id)),
                                     );
                                   });
                                 }

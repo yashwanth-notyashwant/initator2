@@ -269,7 +269,7 @@ class _Round2State extends State<Round2> {
                               padding: EdgeInsets.only(left: 10, right: 10),
 
                               child: const Text(
-                                'Answer Correct Please Submit all',
+                                'Answer Correct Please Submit  ',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 20,

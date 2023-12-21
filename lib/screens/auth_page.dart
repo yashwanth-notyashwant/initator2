@@ -250,6 +250,7 @@ class _AuthPageState extends State<AuthPage> {
                                   myController1.text.toString().trim() ==
                                       '6363') {
                                 stopLoading();
+
                                 // ignore: use_build_context_synchronously
                                 Navigator.push(
                                   context,
@@ -257,6 +258,9 @@ class _AuthPageState extends State<AuthPage> {
                                     builder: (context) => AddNewUser(),
                                   ),
                                 );
+
+                                myController2.clear();
+                                myController1.clear();
                                 return;
                               }
 
@@ -288,6 +292,7 @@ class _AuthPageState extends State<AuthPage> {
                                 if (user.milestone[0] == 0 &&
                                     user.isStarted == false) {
                                   stopLoading();
+
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
@@ -296,10 +301,13 @@ class _AuthPageState extends State<AuthPage> {
                                           WaitingList(user.id.toString()),
                                     ),
                                   );
+                                  myController2.clear();
+                                  myController1.clear();
                                   return;
                                 } else if (user.milestone[0] == 0 &&
                                     user.isStarted == true) {
                                   stopLoading();
+
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
@@ -308,10 +316,13 @@ class _AuthPageState extends State<AuthPage> {
                                           Round1(user.id.toString()),
                                     ),
                                   );
+                                  myController2.clear();
+                                  myController1.clear();
                                   return;
                                 } else if (user.milestone[7] == 1 &&
                                     user.isStarted == true) {
                                   stopLoading();
+
                                   // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
@@ -319,6 +330,8 @@ class _AuthPageState extends State<AuthPage> {
                                       builder: (context) => FianlScreen(),
                                     ),
                                   );
+                                  myController2.clear();
+                                  myController1.clear();
                                   return;
                                 }
 
@@ -349,6 +362,8 @@ class _AuthPageState extends State<AuthPage> {
                                         builder: (context) =>
                                             allClass[clsIndex]),
                                   );
+                                  myController2.clear();
+                                  myController1.clear();
                                   return;
                                 }
                               } else {
