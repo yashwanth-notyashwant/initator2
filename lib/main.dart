@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:initator/firebase_options.dart';
 import 'package:initator/models/user.dart';
 import 'package:initator/screens/auth_page.dart';
-import 'package:initator/screens/instructions_page.dart';
+
 import 'package:initator/splash.dart';
 import 'package:provider/provider.dart';
 

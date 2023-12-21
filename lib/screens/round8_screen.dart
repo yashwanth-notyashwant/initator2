@@ -1,9 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:initator/models/user.dart';
-import 'package:initator/screens/auth_page.dart';
 import 'package:initator/screens/final_screen.dart';
 
 import 'package:initator/widgets/timer_for_round1type.dart';
@@ -30,6 +29,7 @@ class _Round8State extends State<Round8> {
   final TextEditingController _textController1 = TextEditingController();
   final TextEditingController _textController2 = TextEditingController();
   final TextEditingController _textController3 = TextEditingController();
+  final TextEditingController _textController4 = TextEditingController();
 
   int _currentIndex = 0;
   bool isSubmitted = false;
@@ -110,6 +110,11 @@ class _Round8State extends State<Round8> {
       "answer": "yellow",
       "stat": "F",
     },
+    {
+      "question": "How many times does the TV appear in the video ?  ",
+      "answer": "9",
+      "stat": "F",
+    },
   ];
 
   @override
@@ -158,6 +163,7 @@ class _Round8State extends State<Round8> {
       _textController1,
       _textController2,
       _textController3,
+      _textController4,
     ];
 
     Future<bool> pointAdder(String id, int points) async {

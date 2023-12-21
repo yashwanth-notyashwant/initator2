@@ -1,13 +1,9 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:initator/models/user.dart';
-import 'package:initator/screens/auth_page.dart';
-import 'package:initator/screens/instructions_page.dart';
-import 'package:initator/screens/round8_screen.dart';
 
-import 'package:initator/widgets/timer_for_round1type.dart';
+import 'package:initator/screens/instructions_page.dart';
 
 import 'package:loading_btn/loading_btn.dart';
 import 'package:provider/provider.dart';

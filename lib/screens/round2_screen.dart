@@ -1,14 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:initator/models/user.dart';
 
 import 'package:initator/screens/round3_screen.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
-import 'package:initator/widgets/timer_widget.dart';
-import 'package:provider/provider.dart';
+
 import 'package:loading_btn/loading_btn.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // ignore: must_be_immutable
 class Round2 extends StatefulWidget {
@@ -31,28 +28,9 @@ class _Round2State extends State<Round2> {
 
   final List<Map<String, String>> _questions = [
     {
-      "question": "lib/dev_assets/q1.jpg",
-      "answer": "misunderstood",
-      "stat": "F",
-    },
-    {
-      "question": "lib/dev_assets/q2.jpg",
-      "answer": "i ate some pie",
-      "stat": "F",
-    },
-    {
-      "question": "lib/dev_assets/q3.jpg",
-      "answer": "scrambled eggs",
-      "stat": "F",
-    },
-    {
-      "question": "lib/dev_assets/q4.jpg",
-      "answer": "once upon a time",
-      "stat": "F",
-    },
-    {
-      "question": "lib/dev_assets/q5.jpg",
-      "answer": "that is far from the point",
+      "question":
+          "What is the largest number between 1 and 1 million , that when spelled will have no 'n' in it. (Answer in number format)",
+      "answer": "88",
       "stat": "F",
     },
   ];
@@ -279,11 +257,15 @@ class _Round2State extends State<Round2> {
                             )
                           : Center(
                               child: Container(
-                                margin: EdgeInsets.only(
-                                    left: 20, right: 20, bottom: 10, top: 30),
-                                child: Image.asset(
-                                    _questions[_currentIndex]['question']!),
-                              ),
+                                  margin: EdgeInsets.only(
+                                      left: 20, right: 20, bottom: 10, top: 30),
+                                  child: Text(
+                                    _questions[_currentIndex]['question']
+                                        .toString(),
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w300),
+                                  )),
                             ),
                       SizedBox(height: 10),
                       if (_questions[_currentIndex]['stat'] == 'F')

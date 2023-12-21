@@ -6,11 +6,11 @@ import 'package:flutter/services.dart';
 
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:initator/screens/round1_screen.dart';
 
 import 'package:initator/screens/round5_screen.dart';
 import 'package:loading_btn/loading_btn.dart';
 
+// ignore: must_be_immutable
 class QrScannerPageFor1 extends StatefulWidget {
   late String id;
   late int roundCount;

@@ -1,14 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:initator/models/user.dart';
+ 
 import 'package:initator/screens/round7_screen.dart';
 
 import 'package:initator/widgets/timer_for_round1type.dart';
-import 'package:initator/widgets/timer_widget.dart';
-import 'package:provider/provider.dart';
+ 
 import 'package:loading_btn/loading_btn.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+ 
 
 // ignore: must_be_immutable
 class Round6 extends StatefulWidget {

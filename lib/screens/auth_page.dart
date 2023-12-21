@@ -3,7 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:initator/screens/add_user_screen.dart';
 import 'package:initator/screens/final_screen.dart';
-import 'package:initator/screens/instructions_page.dart';
+ 
 import 'package:initator/screens/round1_screen.dart';
 import 'package:initator/screens/round2_screen.dart';
 import 'package:initator/screens/round3_screen.dart';
