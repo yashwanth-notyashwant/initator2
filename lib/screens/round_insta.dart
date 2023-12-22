@@ -2,20 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:initator/screens/round3_screen.dart';
+import 'package:initator/screens/round8_screen.dart';
 import 'package:initator/widgets/timer_for_round1type.dart';
 
 import 'package:loading_btn/loading_btn.dart';
 
 // ignore: must_be_immutable
-class Round2 extends StatefulWidget {
+class RoundInsta extends StatefulWidget {
   late String id;
-  Round2(this.id);
+  RoundInsta(this.id);
   @override
-  State<Round2> createState() => _Round2State();
+  State<RoundInsta> createState() => _RoundInstaState();
 }
 
-class _Round2State extends State<Round2> {
+class _RoundInstaState extends State<RoundInsta> {
   late DateTime startTime;
   final TextEditingController _textController1 = TextEditingController();
 
@@ -25,8 +25,15 @@ class _Round2State extends State<Round2> {
   final List<Map<String, String>> _questions = [
     {
       "question":
-          "What is the largest number between 1 and 1 lakh , that when spelled will have no 'n' in it. (Answer in number format)",
-      "answer": "88",
+          '''1st alphabet: I am situated at the first position above tank . 
+2nd : I am situated between T and O , dated 5/7/2022
+3rd: I am at the first place above wait is over . 
+4th : who won the dino run , collect the 2nd letter. 
+5th: who won call of duty, collect 1st letter.
+6th: I am behind OHI dated 5/7/2022
+
+ ''',
+      "answer": "shaper",
       "stat": "F",
     },
   ];
@@ -122,12 +129,12 @@ class _Round2State extends State<Round2> {
           'milestone': [
             1,
             1,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
             0,
           ]
         });
@@ -167,7 +174,7 @@ class _Round2State extends State<Round2> {
         appBar: !isSubmitted
             ? AppBar(
                 title: Text(
-                  'Round 2  ',
+                  'Round 8 Instagram !',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w400,
@@ -356,7 +363,7 @@ class _Round2State extends State<Round2> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Round3(widget.id)),
+                                              Round8(widget.id)),
                                     );
                                   });
                                 }

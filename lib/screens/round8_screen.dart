@@ -128,37 +128,6 @@ class _Round8State extends State<Round8> {
       });
     }
 
-    void checkAnswer(
-        String ansByUser, int _currentIndex, BuildContext context) async {
-      if (ansByUser.toLowerCase().replaceAll(' ', '') ==
-          _questions[_currentIndex]['answer']
-              ?.toLowerCase()
-              .replaceAll(' ', '')) {
-        var toastWidget = toast(true);
-        fToast.showToast(
-          child: toastWidget,
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: Duration(seconds: 1),
-        );
-
-        setState(() {
-          _questions[_currentIndex]['stat'] = 'T';
-          print("did uit ");
-          print(_questions[_currentIndex]['stat']);
-        });
-        _showNextQuestion();
-      } else {
-        var toastWidget = toast(false);
-        fToast.showToast(
-          child: toastWidget,
-          gravity: ToastGravity.BOTTOM,
-          toastDuration: Duration(seconds: 1),
-        );
-
-        print('Wrong answer!');
-      }
-    }
-
     List CpntrollerList = [
       _textController1,
       _textController2,
@@ -168,9 +137,25 @@ class _Round8State extends State<Round8> {
 
     Future<bool> pointAdder(String id, int points) async {
       try {
+        var user = await Provider.of<Users>(context, listen: false)
+            .fetchUserFromFirestoreForidTinitalTfinal(widget.id);
+
         DocumentReference userRef =
             FirebaseFirestore.instance.collection('users').doc(id);
         Timestamp timestamp = Timestamp.now();
+
+        int? calculateSecondsTaken() {
+          if (user?.timestamp != null) {
+            Duration? duration =
+                timestamp.toDate().difference(user!.timestamp!.toDate());
+            return duration.inSeconds;
+          } else {
+            return 0; // or some default value indicating that timestamps are not set
+          }
+        }
+
+        var sec = calculateSecondsTaken();
+
         await userRef.update({
           'milestone': [
             1,
@@ -181,27 +166,9 @@ class _Round8State extends State<Round8> {
             1,
             1,
             1,
+            1,
           ],
           'timestampFinal': timestamp,
-        });
-
-        var user = await Provider.of<Users>(context, listen: false)
-            .fetchUserFromFirestoreForidTinitalTfinal(widget.id);
-
-        int? calculateSecondsTaken() {
-          if (user?.timestamp != null && user?.timestampFinal != null) {
-            Duration? duration = user?.timestampFinal!
-                .toDate()
-                .difference(user.timestamp!.toDate());
-            return duration?.inSeconds;
-          } else {
-            return 0; // or some default value indicating that timestamps are not set
-          }
-        }
-
-        var sec = calculateSecondsTaken();
-
-        await userRef.update({
           'sec': sec,
         });
 
@@ -238,8 +205,8 @@ class _Round8State extends State<Round8> {
       home: Scaffold(
         appBar: !isSubmitted
             ? AppBar(
-                title: Text(
-                  'Round 8',
+                title: const Text(
+                  'Round 9',
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w400,
@@ -322,21 +289,64 @@ class _Round8State extends State<Round8> {
                           ),
                         ),
                       if (_questions[_currentIndex]['stat'] == 'F')
-                        Container(
-                          height: 60,
-                          margin: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: 20.0,
+                              left: MediaQuery.of(context).size.width * 0.04),
+                          child: LoadingBtn(
+                            height: 60,
+                            borderRadius: 20,
+                            animate: true,
                             color: const Color.fromARGB(255, 182, 222, 255),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: TextButton(
-                            onPressed: () {
+                            width: MediaQuery.of(context).size.width * 0.92,
+                            loader: Container(
+                              padding: const EdgeInsets.all(10),
+                              width: 40,
+                              height: 40,
+                              child: const CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation<Color>(Colors.white),
+                              ),
+                            ),
+                            onTap:
+                                ((startLoading, stopLoading, btnState) async {
+                              startLoading();
                               FocusScope.of(context).unfocus();
-                              checkAnswer(CpntrollerList[_currentIndex].text,
-                                  _currentIndex, context);
-                            },
+
+                              Future.delayed(Duration(seconds: 8), () {
+                                if (CpntrollerList[_currentIndex]
+                                        .text
+                                        .toLowerCase()
+                                        .replaceAll(' ', '') ==
+                                    _questions[_currentIndex]['answer']
+                                        ?.toLowerCase()
+                                        .replaceAll(' ', '')) {
+                                  var toastWidget = toast(true);
+                                  fToast.showToast(
+                                    child: toastWidget,
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: Duration(seconds: 1),
+                                  );
+                                  stopLoading();
+                                  setState(() {
+                                    _questions[_currentIndex]['stat'] = 'T';
+                                  });
+                                  _showNextQuestion();
+                                } else {
+                                  var toastWidget = toast(false);
+                                  fToast.showToast(
+                                    child: toastWidget,
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: Duration(seconds: 1),
+                                  );
+                                  print('Wrong answer!');
+                                  stopLoading();
+                                  return;
+                                }
+                              });
+
+                              return;
+                            }),
                             child: const Text(
                               'Check',
                               textAlign: TextAlign.center,
@@ -350,6 +360,7 @@ class _Round8State extends State<Round8> {
                       if (_currentIndex == _questions.length - 1)
                         Padding(
                           padding: EdgeInsets.only(
+                              bottom: 20.0,
                               left: MediaQuery.of(context).size.width * 0.04),
                           child: LoadingBtn(
                             height: 60,

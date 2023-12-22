@@ -312,6 +312,7 @@ class _AddNewUserState extends State<AddNewUser> {
                             0,
                             0,
                             0,
+                            0,
                           ],
                           isStarted: false,
                         ),

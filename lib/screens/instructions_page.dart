@@ -18,33 +18,17 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
   final List<String> texts = [
     """ 
 
-Example of Variable in Python
 
-dummy data 
-An Example of a Variable in Python is a representational name that serves as a pointer to an object. Once an object is assigned to a variable, it can be referred to by that name. In layman’s terms, we can say that Variable in Python is containers that store values.
+• Upon initiating the start process, you acknowledge and agree to adhere to the following terms and conditions:
 
-Here we have stored “Geeksforgeeks”  in a var which is variable, and when we call its name the stored information will get printed.
-
-Var = "Geeksforgeeks"
-print(Var)
-
-Rules for Python variables
-A Python variable name must start with a letter or the underscore character.
-A Python variable name cannot start with a number.
-A Python variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and _ ).
-Variable in Python names are case-sensitive (name, Name, and NAME are three different variables).
-The reserved words(keywords) in Python cannot be used to name the variable in Python.
-
-# valid variable name
-geeks = 1
-Geeks = 2
-Ge_e_ks = 5
-_geeks = 6
-geeks_ = 7
-_GEEKS_ = 8
- 
-print(geeks, Geeks, Ge_e_ks)
-print(_geeks, geeks_, _GEEKS_)
+1. Completion of all 9 rounds is required for your results to be stored in our database.
+2. The start time is recorded when the start button is pressed.
+3. The result calculation involves the difference between the user's start time and end time.
+4. There is no negative marking; however, there will be an 8-second delay for each answer validation, whether correct or incorrect.
+5. In the rare event of an application malfunction, try restarting the application; your progress will be saved after pressing the submit button for each round.
+6. Only the top 5 participants, evaluated based on time, will advance to the final offline round.
+7. In the case of application failure (even after restarting the application), users experiencing glitches or bugs will be refunded the entry fee.
+8. DevOps disclaims responsibility for any harm or loss of valuable items in the playing arena.
 
  
 
