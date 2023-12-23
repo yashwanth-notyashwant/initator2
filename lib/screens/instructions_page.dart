@@ -23,12 +23,14 @@ class _InstructionsScreenState extends State<InstructionsScreen> {
 
 1. Completion of all 9 rounds is required for your results to be stored in our database.
 2. The start time is recorded when the start button is pressed.
-3. The result calculation involves the difference between the user's start time and end time.
-4. There is no negative marking; however, there will be an 8-second delay for each answer validation, whether correct or incorrect.
-5. In the rare event of an application malfunction, try restarting the application; your progress will be saved after pressing the submit button for each round.
-6. Only the top 5 participants, evaluated based on time, will advance to the final offline round.
-7. In the case of application failure (even after restarting the application), users experiencing glitches or bugs will be refunded the entry fee.
-8. DevOps disclaims responsibility for any harm or loss of valuable items in the playing arena.
+3. If more than one device from a team is connected to the app , the team will be disqualified. (Only 1 person should download the mobile application).
+4. Always keep your device connected to the internet , If not your progress might not be saved.
+5. The result calculation involves the difference between the user's start time and end time.
+6. There is no negative marking; however, there will be an 8-second delay for each answer validation, whether correct or incorrect.
+7. In the rare event of an application malfunction, try restarting the application; your progress will be saved after pressing the submit button for each round.
+8. Only the top 5 participants, evaluated based on time, will advance to the final offline round.
+9. In the case of application failure (even after restarting the application) please contact our Team, users experiencing glitches or bugs will be refunded the entry fee.
+10. DevOps disclaims responsibility for any harm or loss of valuable items in the playing arena.
 
  
 
